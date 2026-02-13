@@ -8,13 +8,16 @@ export default function DynamicForm({
   submitButtonText = "Submit",
   showButton = true,
   formId = "form",
-  className = ""
- 
+  className = "",
 }) {
-  const { control, handleSubmit  , } = form;
-  
+  const { control, handleSubmit } = form;
+
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={`px-4  ${className}`}>
+    <form
+      id={formId}
+      onSubmit={handleSubmit(onSubmit)}
+      className={`px-4 space-y-2 ${className}`}
+    >
       {fields.map((f) => {
         const FieldComponent = FIELD_MAP[f.type];
 
@@ -37,9 +40,8 @@ export default function DynamicForm({
                 isDirty={fieldState.isDirty}
                 isTouched={fieldState.isTouched}
                 invalid={fieldState.invalid}
-
-                inputProps={f.inputProps}   
-                errorProps={f.errorProps}   
+                inputProps={f.inputProps}
+                errorProps={f.errorProps}
               />
             )}
           />
@@ -47,10 +49,7 @@ export default function DynamicForm({
       })}
 
       {showButton && (
-        <button
-          type="submit"
-          className=" bg-dark-3  px-4 py-2 mt-4 rounded-lg"
-        >
+        <button type="submit" className=" bg-dark-3  px-4 py-2 mt-4 rounded-lg">
           {submitButtonText}
         </button>
       )}

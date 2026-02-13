@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/reducer";
 import { api } from "../../../services/apiSlice";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function LoginComponents({onClose}) {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ export default function LoginComponents({onClose}) {
       dispatch(
         api.endpoints.getUser.initiate(undefined, { forceRefetch: true }),
       );
+      toast.success("Login worked")
       router.push("/");
       onClose();
     } catch (err) {

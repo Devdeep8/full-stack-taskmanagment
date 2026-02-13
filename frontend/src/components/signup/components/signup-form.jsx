@@ -1,29 +1,125 @@
+/* eslint-disable react-hooks/incompatible-library */
 import DynamicForm from "../../../common/components/FormBuilder";
 import { useForm } from "react-hook-form";
+import { useUsernameCheck } from "../hooks/useUsernameCheck";
+import { baseApiUrl } from "@/services/apiSlice";
+import toast from "react-hot-toast";
 export default function SignupComponent() {
   const form = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
-    defaultValues: { name: " ", email: "", password: "" },
+    defaultValues: {
+      name: "",
+      username: "",
+      email: "",
+      phone: "",
+      password: "",
+      remember: false,
+    },
   });
+
+  const {
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = form;
+
+  // 👇 realtime username watch
+  const username = watch("username");
+
+  // 👇 realtime username check (debounced inside hook)
+  const { checking } = useUsernameCheck(username, setError, clearErrors);
+
   const handleSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:4000/users", {
+      const res = await fetch(`${baseApiUrl}/api/v1/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: crypto.randomUUID(),
           name: data.name,
+          username: data.username,
           email: data.email,
+          phone: data.phone,
           password: data.password,
         }),
+        credentials: "include",
       });
 
-      const user = await res.json();
-      console.log("User created:", user);
-      alert("Signup successful 🎉");
+      const response = await res.json();
+
+      // ❌ Username / Email already exists (example: 409 conflict)
+      if (res.status === 409) {
+        if (response?.field === "username") {
+          setError("username", {
+            type: "server",
+            message: response.message || "Username already taken",
+          });
+          setFocus("username");
+        }
+
+        if (response?.field === "email") {
+          setError("email", {
+            type: "server",
+            message: response.message || "Email already exists",
+          });
+          setFocus("email");
+        }
+
+        toast.error(response?.message || "User already exists");
+        return;
+      }
+
+      // ❌ Validation error (400)
+      if (res.status === 400) {
+        setError("root", {
+          type: "server",
+          message: response?.message || "Invalid input",
+        });
+        toast.error(response?.message || "Invalid input");
+        return;
+      }
+
+      // ❌ Other server errors
+      if (!res.ok) {
+        setError("root", {
+          type: "server",
+          message: response?.message || "Signup failed. Try again.",
+        });
+        toast.error(response?.message || "Signup failed ❌");
+        return;
+      }
+
+      // ✅ Success
+      const user = response?.data?.user;
+
+      if (!user) {
+        setError("root", {
+          type: "server",
+          message: "Invalid server response",
+        });
+        toast.error("Invalid server response");
+        return;
+      }
+
+      dispatch(setUser(user));
+
+      // Sync RTK Query cache
+      dispatch(
+        api.endpoints.getUser.initiate(undefined, { forceRefetch: true }),
+      );
+
+      toast.success("Signup successful 🎉");
+      router.push("/");
+      onClose();
     } catch (err) {
-      console.error(err);
+      console.error("Signup error:", err);
+      setError("root", {
+        type: "server",
+        message: "Network error. Please try again.",
+      });
+      toast.error("Network error. Please try again.");
     }
   };
 
@@ -33,15 +129,26 @@ export default function SignupComponent() {
       name: "name",
       label: "Name",
       placeholder: "Enter Name",
-      className: "",
       rules: { required: "Name is required" },
+    },
+    {
+      type: "input",
+      name: "username",
+      label: "Username",
+      placeholder: "Enter Username",
+      rules: {
+        required: "Username is required",
+        minLength: {
+          value: 3,
+          message: "Minimum 3 characters required",
+        },
+      },
     },
     {
       type: "input",
       name: "email",
       label: "Email",
       placeholder: "Enter email",
-      className: "",
       rules: {
         required: "Email is required",
         pattern: {
@@ -52,8 +159,8 @@ export default function SignupComponent() {
     },
     {
       name: "phone",
-      label: "Phone. No.",
-      type: "input",
+      label: "Phone No.",
+      type: "tel",
       placeholder: "0000000000",
       rules: {
         required: "Phone number is required",
@@ -62,18 +169,12 @@ export default function SignupComponent() {
           message: "Enter valid 10 digit number",
         },
       },
-      inputProps: {
-        className:
-          " border border-white/30 bg-primary-2 text-white focus:ring-2 focus:outline-none  focus:ring-gold rounded px-3 py-2 w-full",
-        maxLength: 10,
-      },
     },
     {
       type: "password",
       name: "password",
       label: "Password",
       placeholder: "Enter password",
-      className: "w-full",
       rules: { required: "Password is required" },
     },
     {
@@ -85,13 +186,27 @@ export default function SignupComponent() {
   ];
 
   return (
-    <div className=" max-w-md  mx-auto ">
+    <div className="max-w-md mx-auto">
       <DynamicForm
         fields={fields}
         form={form}
         onSubmit={handleSubmit}
-        submitButtonText=" Sign Up"
+        submitButtonText={checking ? "Checking..." : "Sign Up"}
+        disabled={checking || !!errors.username || isSubmitting}
       />
+
+      {/* 🔥 Username Status UI */}
+      {checking && (
+        <p className="text-xs text-yellow-400 mt-2">Checking username...</p>
+      )}
+
+      {!checking && username?.length >= 3 && !errors.username && (
+        <p className="text-xs text-green-400 mt-2">Username available</p>
+      )}
+
+      {errors.username && (
+        <p className="text-xs text-red-400 mt-2">{errors.username.message}</p>
+      )}
     </div>
   );
 }

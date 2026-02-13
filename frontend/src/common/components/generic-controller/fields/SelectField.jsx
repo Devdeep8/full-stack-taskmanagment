@@ -3,18 +3,15 @@ export default function SelectField({ field, config, error }) {
 
   return (
     <div className="w-full">
-      {label && (
-        <label className="block mb-1 text-sm font-medium">{label}</label>
-      )}
+      {label && <label className="block mb-1 text-sm font-medium">{label}</label>}
 
       <select
         {...field}
-        className={`w-full bg-primary-2 text-white px-3 py-3 border border-white/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow ${
-          error ? "border-red-500" : "border-gray-300"
+        className={`w-full bg-primary-2 text-white px-3 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow ${
+          error ? "border-red-500" : "border-white/40"
         }`}
       >
         <option value="">{placeholder}</option>
-
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

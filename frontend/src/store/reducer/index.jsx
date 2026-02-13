@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-  isAuthanticalted: false,
+  isAuthenticated: false,
   tasks: [],
 };
 
@@ -12,11 +12,11 @@ export const userTaskSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      state.isAuthanticalted = true;
+      state.isAuthenticated = true;
     },
     clearUser: (state) => {
       state.user = null;
-      state.isAuthanticalted = false;
+      state.isAuthenticated = false;
       state.tasks = [];
     },
     setTasks: (state, action) => {

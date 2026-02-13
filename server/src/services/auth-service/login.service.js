@@ -1,5 +1,4 @@
 // login.service.js
-import { ttlToMs } from "../../utils/cookie.js";
 import { TokenService } from "../token-service/token.service.js";
 import { BaseService } from "../base.service.js";
 import bcrypt from "bcryptjs";
@@ -14,7 +13,7 @@ class LoginService extends BaseService {
       REFRESH_TOKEN_TTL, 
       TOKEN_ISSUER, 
       requestId 
-    } = this.context;
+    } = this.args;
 
     const config = {
       ACCESS_TOKEN_SECRET,
@@ -26,8 +25,9 @@ class LoginService extends BaseService {
     };
 
     // Validation
+
     if (!username) {
-      throw new this.error("Email is required", this.httpStatus.BAD_REQUEST);
+      throw new this.error("USername is required", this.httpStatus.BAD_REQUEST);
     }
     if (!password) {
       throw new this.error("Password is required", this.httpStatus.BAD_REQUEST);
@@ -50,7 +50,6 @@ class LoginService extends BaseService {
 
     // Generate tokens
     const tokenService = new TokenService(config);
-    ("Dv"  , user)
     const payload = {
       userId: user.id,
     };
@@ -58,12 +57,8 @@ class LoginService extends BaseService {
     const accessToken = tokenService.createAccessToken(payload);
     const refreshToken = tokenService.createRefreshToken(payload);
 
-    // Update user refresh token
-    user.refreshToken = refreshToken;
-    user.refreshTokenExpiresAt = new Date(
-      Date.now() + ttlToMs(config.REFRESH_TOKEN_TTL)
-    );
-    await user.save();
+
+    
 
     // Return data matching controller expectations
     return {

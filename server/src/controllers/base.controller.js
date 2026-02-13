@@ -39,7 +39,7 @@ export class BaseController {
    */
   buildContext(req) {
     return {
-      requestId: req.id || req.headers['x-request-id'],
+      requestId: req.requestId || req.headers['x-request-id'],
       user: req.user,
       ip: req.ip,
       userAgent: req.get('user-agent'),

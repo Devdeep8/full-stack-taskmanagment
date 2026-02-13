@@ -3,6 +3,7 @@ import AppError from "../utils/appError.js";
 import { setAccessTokenCookie } from "../utils/cookie.js";
 import { httpStatus } from "../utils/http-status.js";
 import { TokenService } from "../services/token-service/token.service.js";
+import { db } from "../models/index.js";
 
 const tokenService = new TokenService({
   ACCESS_TOKEN_SECRET: process.env.JWT_ACCESS_SECRET,
@@ -16,9 +17,6 @@ class AuthMiddleware {
   constructor() {
     this.authenticate = this.authenticate.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
-    this.isAdmin = this.isAdmin.bind(this);
-    this.isPlayer = this.isPlayer.bind(this);
-    this.authorize = this.authorize.bind(this);
   }
 
   // ===============================
@@ -38,9 +36,10 @@ class AuthMiddleware {
       const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
       if (decoded.typ !== "access") return this.handleRefresh(req, res, next);
 
-      const user = await userRepository.getUserByIdentifier({
-        id: decoded.userId,
-      });
+      const id = decoded.userId;
+
+
+      const user = await db.users.findByPk(id);
 
       if (!user) {
         return res.status(401).json({ message: "User not found" });
@@ -85,24 +84,14 @@ class AuthMiddleware {
         return res.status(401).json({ message: "Invalid token type" });
       }
 
+      const id = decodedRefresh.userId;
+
       // Fetch user only to get permissions
-      const user = await userRepository.getUserByIdentifier({
-        id: decodedRefresh.userId,
-      });
+      const user = await db.users.findByPk(id);
 
       if (!user) {
         // 🔴 Return 401 if user not found
         return res.status(401).json({ message: "User not found" });
-      }
-
-      if (user.refreshToken !== refreshToken) {
-        // 🔴 Return 401 for token mismatch
-        throw new AppError(
-          "Refresh does not match with Db",
-          httpStatus.UNAUTHORIZED,
-          { type: "login in another browser" },
-          "authmiddleware",
-        );
       }
 
       // Rotate access token

@@ -9,11 +9,12 @@ const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
 
-  const handleLogout = () => {
-    console.log("done logout")
-  }
+
 
   const { user, isAuthenticated } = useSelector((state) => state.userTask);
+  const handleLogout = () => {
+    console.log("logout")
+  }
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b bg-primary">

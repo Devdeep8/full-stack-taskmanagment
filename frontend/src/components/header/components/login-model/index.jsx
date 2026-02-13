@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Modal from "../../../../common/components/Modal";
 import LoginComponents from "../../../login/components/loginform";
 import { PNGIMAGE } from "../../../../../public/assets";
@@ -32,7 +33,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             </p>
           </div>
           <div>
-            <LoginComponents />
+            <LoginComponents onClose={onClose} />
           </div>
         </div>
       </div>

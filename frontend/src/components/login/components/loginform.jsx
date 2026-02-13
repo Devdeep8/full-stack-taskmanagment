@@ -1,12 +1,15 @@
+"use client";
 import DynamicForm from "../../../common/components/FormBuilder";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/reducer";
 import { api } from "../../../services/apiSlice";
+import { useRouter } from "next/navigation";
 
-export default function LoginComponents() {
-  // const navigate = useNavigate();
+export default function LoginComponents({onClose}) {
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: { username: "", password: "", remember: false },
@@ -14,13 +17,14 @@ export default function LoginComponents() {
     reValidateMode: "onChange",
   });
 
+  const { setError, setFocus } = form;
+
   const fields = [
     {
       type: "input",
       name: "username",
       label: "Username",
       placeholder: "Enter Username",
-      className: "",
       rules: { required: "Enter Username" },
     },
     {
@@ -28,35 +32,83 @@ export default function LoginComponents() {
       name: "password",
       label: "Password",
       placeholder: "Enter password",
-      className: "w-full",
       rules: { required: "Password is required" },
     },
   ];
 
   const handleLogin = async (data) => {
-    console.log(data);
-    const res = await fetch("http://localhost:4000/api/v1/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", 
-      },
-      body: JSON.stringify(data), 
-      credentials: "include",
-    });
-    const response = await res.json();
-    console.log(response.data.user);
-    dispatch(setUser(response.data.user))  
-    dispatch(api.endpoints.getUser.initiate())
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`, // or your base url
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+          credentials: "include",
+        },
+      );
+
+      const response = await res.json();
+
+      // ❌ 401 - invalid credentials
+      if (res.status === 401) {
+        // Set field errors (adjust keys based on backend response)
+        setError("username", {
+          type: "server",
+          message: response?.message || "Invalid username or password",
+        });
+        setError("password", {
+          type: "server",
+          message: "Invalid username or password",
+        });
+        setFocus("username");
+        return;
+      }
+
+      // ❌ other errors
+      if (!res.ok) {
+        setError("root", {
+          type: "server",
+          message: response?.message || "Login failed. Try again.",
+        });
+        return;
+      }
+
+      // ✅ success
+      const user = response?.data?.user;
+      if (!user) {
+        setError("root", {
+          type: "server",
+          message: "Invalid server response",
+        });
+        return;
+      }
+
+      dispatch(setUser(user));
+
+      // refetch /auth/me so RTK Query cache is in sync
+      dispatch(
+        api.endpoints.getUser.initiate(undefined, { forceRefetch: true }),
+      );
+      router.push("/");
+      onClose();
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("root", {
+        type: "server",
+        message: "Network error. Please try again.",
+      });
+    }
   };
 
   return (
-    <div className=" max-w-md flex flex-col mx-auto  p-6 space-y-6">
+    <div className="max-w-md mx-auto p-6 space-y-6">
       <DynamicForm
         fields={fields}
         form={form}
         submitButtonText="Login"
         onSubmit={handleLogin}
-        className=" flex flex-col gap-4"
+        className="flex flex-col gap-4"
       />
     </div>
   );

@@ -10,7 +10,7 @@ export default function AuthFetcher() {
   useEffect(() => {
     if (isSuccess && user) {
       dispatch(setUser(user));
-    }
+    } 
   }, [isSuccess, user, dispatch]);
 
   return null; // doesn’t render anything

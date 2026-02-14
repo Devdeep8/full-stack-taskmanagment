@@ -1,7 +1,8 @@
 import { cn } from "@/utils";
 
 export default function InputField({ field, config, error, inputProps = {} }) {
-  const { label, placeholder, type = "text", icon: Icon } = config;
+  const { label, placeholder, type = "text", icon: Icon  , disabled , readOnly} = config;
+  console.log(config)
 
   return (
     <div className="w-full">
@@ -17,11 +18,13 @@ export default function InputField({ field, config, error, inputProps = {} }) {
         <input
           {...field}
           {...inputProps}
+          disabled={disabled}
+          readOnly={readOnly}
           type={type}
           placeholder={placeholder}
           
           className={cn(
-            "w-full bg-primary-2 text-white px-3 py-3 border border-white/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow",
+            "w-full bg-primary-2 disabled:bg-white/30 disabled:text-white/30 text-white px-3 py-3 border border-white/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow",
             inputProps.className
           )}
         />

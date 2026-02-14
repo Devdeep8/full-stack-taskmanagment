@@ -2,6 +2,7 @@ import CheckUserNameService from "../../services/auth-service/checkUser.service.
 import LoginService from "../../services/auth-service/login.service.js";
 import CurrnetUserService from "../../services/auth-service/me.service.js";
 import RegisterService from "../../services/auth-service/register.service.js";
+import UpdateUserService from "../../services/user-service/updateuser.service.js";
 import {
   setAccessTokenCookie,
   setRefreshTokenCookie,
@@ -30,7 +31,7 @@ class AuthController extends BaseController {
     const args = {...registerCredentials , ...authCredentials}
 
     const data = await this.executeService(RegisterService, req, res , args)
-    return res.status(200).json(data);
+    return res.status(this.httpStatus.OK).json(data);
   });
   loginUser = this.asyncHandler(async (req, res) => {
     const loginCredentials = this.pickFields(req.body, [
@@ -54,7 +55,7 @@ class AuthController extends BaseController {
     setRefreshTokenCookie(res, data.data.refreshToken);
 
     // this.setStatusCode(res, this.httpStatus.OK);
-    return res.status(200).json(data);
+    return res.status(this.httpStatus.OK).json(data);
   });
 
   me = this.asyncHandler(async (req, res) => {
@@ -65,7 +66,7 @@ class AuthController extends BaseController {
       args,
     });
     console.log("data :>> ", data);
-    return res.status(200).json(data);
+    return res.status(this.httpStatus.OK).json(data);
   });
 
   checkUsername = this.asyncHandler(async (req, res) => {
@@ -75,8 +76,22 @@ class AuthController extends BaseController {
       username,
     });
     console.log(username);
-    return res.status(200).json(data);
+    return res.status(this.httpStatus.OK).json(data);
   });
+
+  updateUSer = this.asyncHandler(async(req, res) => {
+    const updateFieldData = this.pickFields(req.body , ["name" , "phone" , "gender" , "dob" , "address" , "zipcode" , "state"])
+    const args =  {id : req.user.userId , updateFieldData}
+    console.log('args :>> ', args);
+
+    const data  = await this.executeService(UpdateUserService , req ,res , {args} )
+
+    return res.status(this.httpStatus.OK).json(data)
+  })
+
+
+
+
 }
 
 export default new AuthController();

@@ -17,40 +17,10 @@ class UpdateUserService extends BaseService {
     // 1️⃣ Find user
     const user = await this.db.users.findByPk(id);
 
-    if (!user) {
-      throw new AppError(
-        "User not found",
-        this.httpStatus.NOT_FOUND,
-        { code: "USER_NOT_FOUND", type: "NOT_FOUND" },
-        this.serviceName
-      );
-    }
-
-    // 2️⃣ Allow only specific fields to be updated
-    const ALLOWED_FIELDS = ["name" , "phone" , "gender" , "dob" , "address" , "zipcode" , "state"];
-    const updatePayload = {};
-
-    for (const key of ALLOWED_FIELDS) {
-      if (data?.[key] !== undefined) {
-        updatePayload[key] = data[key];
-      }
-    }
-
-    // 3️⃣ Block protected fields even if frontend sends them
-    const BLOCKED_FIELDS = ["id", "password", "createdAt"];
-    for (const key of BLOCKED_FIELDS) {
-      if (key in data) {
-        throw new AppError(
-          `${key} cannot be updated`,
-          this.httpStatus.FORBIDDEN,
-          { code: "FIELD_NOT_UPDATABLE", type: "AUTHORIZATION_ERROR" },
-          this.serviceName
-        );
-      }
-    }
+    
 
     // 4️⃣ Update
-    await user.update(updatePayload);
+    await user.update(updateData);
 
     // 5️⃣ Return fresh user
     return user;

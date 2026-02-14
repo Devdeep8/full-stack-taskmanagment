@@ -33,6 +33,8 @@ class AuthController extends BaseController {
     const data = await this.executeService(RegisterService, req, res , args)
     return res.status(this.httpStatus.OK).json(data);
   });
+
+  
   loginUser = this.asyncHandler(async (req, res) => {
     const loginCredentials = this.pickFields(req.body, [
       "username",
@@ -79,7 +81,7 @@ class AuthController extends BaseController {
     return res.status(this.httpStatus.OK).json(data);
   });
 
-  updateUSer = this.asyncHandler(async(req, res) => {
+  updateUser = this.asyncHandler(async(req, res) => {
     const updateFieldData = this.pickFields(req.body , ["name" , "phone" , "gender" , "dob" , "address" , "zipcode" , "state"])
     const args =  {id : req.user.userId , updateFieldData}
     console.log('args :>> ', args);

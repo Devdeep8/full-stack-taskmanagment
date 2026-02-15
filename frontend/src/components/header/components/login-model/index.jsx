@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Modal from "../../../../common/components/Modal";
 import LoginComponents from "../../../login/components/loginform";
-import { PNGIMAGE } from "../../../../../public/assets";
+import { IMAGEOBJ } from "../../../../../public/assets";
 
 const LoginModal = ({ isOpen, onClose }) => {
   return (
@@ -15,7 +15,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         {/* Left Image */}
         <div className="hidden md:block w-1/2 h-full">
           <img
-            src={PNGIMAGE.auth}
+            src={IMAGEOBJ.auth}
             alt="auth"
             className="w-full h-full object-cover rounded-l-xl"
           />

@@ -3,7 +3,6 @@ import { BaseService } from "../base.service.js";
 class CurrnetUserService extends BaseService {
   async run() {
     const { args } = this.args;
-    console.log("userId :>> ", this.args);
 
     try {
       const user = await this.db.users.findByPk(args);

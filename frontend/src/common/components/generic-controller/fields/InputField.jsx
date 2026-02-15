@@ -2,7 +2,6 @@ import { cn } from "@/utils";
 
 export default function InputField({ field, config, error, inputProps = {} }) {
   const { label, placeholder, type = "text", icon: Icon  , disabled , readOnly} = config;
-  console.log(config)
 
   return (
     <div className="w-full">

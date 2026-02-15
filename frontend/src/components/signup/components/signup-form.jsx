@@ -3,8 +3,15 @@ import DynamicForm from "../../../common/components/FormBuilder";
 import { useForm } from "react-hook-form";
 import { useUsernameCheck } from "../hooks/useUsernameCheck";
 import { baseApiUrl } from "@/services/apiSlice";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-export default function SignupComponent() {
+import { setUser } from "@/store/reducer";
+import { useRouter } from "next/navigation";
+import { api } from "@/services/apiSlice";
+
+export default function SignupComponent({onClose}) {
+  const router = useRouter()
+  const dispatch = useDispatch()
   const form = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -33,7 +40,7 @@ export default function SignupComponent() {
 
   const handleSubmit = async (data) => {
     try {
-      const res = await fetch(`${baseApiUrl}/api/v1/auth/register`, {
+      const res = await fetch(`${baseApiUrl}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -48,6 +55,7 @@ export default function SignupComponent() {
       });
 
       const response = await res.json();
+      console.log('response :>> ', response);
 
       // ❌ Username / Email already exists (example: 409 conflict)
       if (res.status === 409) {

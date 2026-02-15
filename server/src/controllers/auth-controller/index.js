@@ -28,13 +28,14 @@ class AuthController extends BaseController {
       requestId: req.requestId,
     };
 
-    const args = {...registerCredentials , ...authCredentials}
+    const args = { ...registerCredentials, ...authCredentials };
 
-    const data = await this.executeService(RegisterService, req, res , args)
+    const data = await this.executeService(RegisterService, req, res, args);
+    setAccessTokenCookie(res, data.data.accessToken);
+    setRefreshTokenCookie(res, data.data.refreshToken);
     return res.status(this.httpStatus.OK).json(data);
   });
 
-  
   loginUser = this.asyncHandler(async (req, res) => {
     const loginCredentials = this.pickFields(req.body, [
       "username",
@@ -61,39 +62,40 @@ class AuthController extends BaseController {
   });
 
   me = this.asyncHandler(async (req, res) => {
-    console.log("req.user :>> ", req.user.userId);
 
     const args = req.user.userId;
     const data = await this.executeService(CurrnetUserService, req, res, {
       args,
     });
-    console.log("data :>> ", data);
     return res.status(this.httpStatus.OK).json(data);
   });
 
   checkUsername = this.asyncHandler(async (req, res) => {
-    console.log("req.query :>> ", req.query);
     const username = req.query.username;
     const data = await this.executeService(CheckUserNameService, req, res, {
       username,
     });
-    console.log(username);
     return res.status(this.httpStatus.OK).json(data);
   });
 
-  updateUser = this.asyncHandler(async(req, res) => {
-    const updateFieldData = this.pickFields(req.body , ["name" , "phone" , "gender" , "dob" , "address" , "zipcode" , "state"])
-    const args =  {id : req.user.userId , updateFieldData}
-    console.log('args :>> ', args);
+  updateUser = this.asyncHandler(async (req, res) => {
+    const updateFieldData = this.pickFields(req.body, [
+      "name",
+      "phone",
+      "gender",
+      "dob",
+      "address",
+      "zipcode",
+      "state",
+    ]);
+    const args = { id: req.user.userId, updateFieldData };
 
-    const data  = await this.executeService(UpdateUserService , req ,res , {args} )
+    const data = await this.executeService(UpdateUserService, req, res, {
+      args,
+    });
 
-    return res.status(this.httpStatus.OK).json(data)
-  })
-
-
-
-
+    return res.status(this.httpStatus.OK).json(data);
+  });
 }
 
 export default new AuthController();

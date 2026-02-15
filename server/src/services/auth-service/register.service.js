@@ -32,31 +32,59 @@ class RegisterService extends BaseService {
       throw new this.error("Password is required", this.httpStatus.BAD_REQUEST);
     }
 
-    const user = await this.db.users.findOne({
+    const existingUser = await this.db.users.findOne({
       where: { email },
     });
-    if (user) {
+    if (existingUser) {
       throw new this.error("User already exists", this.httpStatus.BAD_REQUEST);
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await this.db.users.create({
-      name,
-      email,
-      username,
-      phone,
-      password: hashedPassword,
+    const { user, wallet } = await this.db.sequelize.transaction(async (t) => {
+      const user = await this.db.users.create(
+        {
+          name,
+          email,
+          username,
+          phone,
+          password: hashedPassword,
+        },
+        { transaction: t },
+      );
+
+      const wallet = await this.db.wallet.create(
+        {
+          userId: user.id,
+          balance: 0,
+          currency: "USD",
+        },
+        { transaction: t },
+      );
+
+      return { user, wallet };
     });
 
     const tokenService = new TokenService(config);
     const payload = {
-      userId: newUser.id,
+      userId: user.id,
     };
 
     const accessToken = tokenService.createAccessToken(payload);
     const refreshToken = tokenService.createRefreshToken(payload);
 
-    return { accessToken, refreshToken };
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        wallet: {
+          balance: wallet.balance,
+          currency: wallet.currency,
+        },
+      },
+    };
   }
 }
 

@@ -1,12 +1,14 @@
 "use client";
 
-import Card from "@/common/components/card";
-import BannerCarousel from "./components/banner-carasual";
+import GameCarousel from "./components/top-week-carasual";
 
 export default function HomeComponents() {
   return (
-    <div>
-      <BannerCarousel />
+    <div className="max-w-7xl mx-auto mt-4">
+      <GameCarousel />
+      <GameCarousel />
+      <GameCarousel />
+      <GameCarousel />
     </div>
   );
 }

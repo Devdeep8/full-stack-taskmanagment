@@ -3,29 +3,20 @@
 import { useRef, useState, useEffect } from "react";
 import { cn } from "@/utils";
 
-export default function BaseCarousel({
-  children,
-  className,
-}) {
+export default function BaseCarousel({ children, className }) {
   const containerRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
   useEffect(() => {
     const checkOverflow = () => {
       const el = containerRef.current;
-      console.log(el.scrollWidth , el.clientWidth)
       if (!el) return;
 
       setIsOverflowing(el.scrollWidth > el.clientWidth);
     };
 
     checkOverflow();
-
   }, [children]);
-
-  
-
-
 
   return (
     <div className={cn("relative  ", className)}>
@@ -40,9 +31,7 @@ export default function BaseCarousel({
       {/* Buttons only if overflow */}
       {isOverflowing && (
         <>
-        <p>
-            is overflowing
-        </p>
+          <p>is overflowing</p>
         </>
       )}
     </div>

@@ -2,24 +2,25 @@ import Image from "next/image";
 import { Play, Heart } from "lucide-react";
 
 export default function Card({
-  image,
+  image = "https://wbgame.daracasino.com/GameIcon/AceWin/5716.webp",
   title,
   isNew = false,
   onPlay,
   onLike,
 }) {
   return (
-    <div className="shadow w-full h-full relative mx-4 max-w-36 group cursor-pointer overflow-hidden rounded-lg">
-      
+    <div className="shadow w-full  relative   max-w-36 group cursor-pointer  overflow-hidden rounded-lg">
       {/* Image */}
+      <div className="w-40 h-56">
+
       <Image
         src={image}
         alt={title}
-        className="object-cover rounded-lg"
-        width={260}
-        height={350}
-      />
+        className="object-cover rounded-lg group-hover:scale-110 group-hover:duration-150 transition-all group-hover:ease-in-out"
+        fill
+        />
 
+        </div>
       {/* 🔴 NEW Badge */}
       {isNew && (
         <div className="absolute top-2 left-2 -skew-x-12 rounded-[3px] text-sm shadow-md flex items-center bg-red-600 px-2 transition-all group-hover:-translate-x-20 duration-200 ease-in-out">
@@ -28,13 +29,12 @@ export default function Card({
       )}
 
       {/* 🔵 Bottom Title */}
-      <div className="absolute bottom-2 w-full flex justify-center text-[0.6rem] text-white transition-all group-hover:translate-y-7 duration-200 ease-in-out">
+      <div className="absolute bottom-0 w-full flex justify-center text-[0.6rem] text-white transition-all group-hover:translate-y-7 duration-200 ease-in-out">
         <span>{title}</span>
       </div>
 
       {/* 🟢 Hover Overlay */}
-      <div className="absolute inset-0 bg-black/60 hidden group-hover:flex flex-col items-center justify-center gap-3 transition-all duration-300">
-        
+      <div className="absolute inset-0 bg-background/80  hidden group-hover:flex flex-col items-center justify-center gap-3 transition-all duration-300">
         {/* Play Button */}
         <button
           onClick={onPlay}

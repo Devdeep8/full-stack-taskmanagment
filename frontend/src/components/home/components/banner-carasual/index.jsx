@@ -1,4 +1,4 @@
-import CommonCarousel from "@/common/components/carasual";
+import BaseCarousel from "@/common/components/carasual";
 import Image from "next/image";
 
 const bannerImages = [
@@ -9,7 +9,7 @@ const bannerImages = [
 
 export default function BannerCarousel() {
   return (
-    <CommonCarousel className=" ">
+    <BaseCarousel className="   ">
         <div className=" flex mx-auto mt-4">
 
       {bannerImages.map((imgSrc, index) => (
@@ -20,6 +20,6 @@ export default function BannerCarousel() {
         </div>
       ))}
       </div>
-    </CommonCarousel>
+    </BaseCarousel>
   );
 }

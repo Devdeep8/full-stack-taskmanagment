@@ -1,9 +1,17 @@
 // src/models/index.js
 import { sequelize } from "../config/db.js";
+
 import { User } from "./User.model.js";
 import { Wallet } from "./Wallet.model.js";
+import { Category } from "./Category.model.js";
+import { Game } from "./Game.model.js";
 export const associateModels = () => {
-  // Define associations with inverse option for v7
+
+  /*
+  ===============================
+  USER ↔ WALLET (1:1)
+  ===============================
+  */
 
   User.hasOne(Wallet, {
     foreignKey: "userId",
@@ -13,10 +21,26 @@ export const associateModels = () => {
     },
   });
 
-  // Task belongs to User (creator)
+  /*
+  ===============================
+  CATEGORY ↔ GAME (1:M)
+  ===============================
+  */
+
+  Category.hasMany(Game, {
+    foreignKey: "categoryId",
+    as: "games",
+    inverse: {
+      as: "category",
+    },
+  });
+
 };
+
 export const db = {
   users: User,
-  wallet:Wallet,
-  sequelize: sequelize,
+  wallets: Wallet,
+  categories: Category,
+  games: Game,
+  sequelize,
 };

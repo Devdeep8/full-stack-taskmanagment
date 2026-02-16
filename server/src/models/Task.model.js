@@ -1,7 +1,6 @@
 // src/models/Task.model.js
 import { DataTypes } from "@sequelize/core";
 import { sequelize } from "../config/db.js";
-DataTypes
 export const Task = sequelize.define(
   "Task",
   {

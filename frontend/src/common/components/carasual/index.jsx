@@ -6,7 +6,6 @@ import { cn } from "@/utils";
 export default function BaseCarousel({
   children,
   className,
-  slideAmount = 300,
 }) {
   const containerRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -14,30 +13,19 @@ export default function BaseCarousel({
   useEffect(() => {
     const checkOverflow = () => {
       const el = containerRef.current;
+      console.log(el.scrollWidth , el.clientWidth)
       if (!el) return;
 
       setIsOverflowing(el.scrollWidth > el.clientWidth);
     };
 
     checkOverflow();
-    window.addEventListener("resize", checkOverflow);
 
-    return () => window.removeEventListener("resize", checkOverflow);
   }, [children]);
 
-  const scrollNext = () => {
-    containerRef.current.scrollBy({
-      left: slideAmount,
-      behavior: "smooth",
-    });
-  };
+  
 
-  const scrollPrev = () => {
-    containerRef.current.scrollBy({
-      left: -slideAmount,
-      behavior: "smooth",
-    });
-  };
+
 
   return (
     <div className={cn("relative ", className)}>
@@ -52,19 +40,9 @@ export default function BaseCarousel({
       {/* Buttons only if overflow */}
       {isOverflowing && (
         <>
-          <button
-            onClick={scrollPrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded"
-          >
-            ‹
-          </button>
-
-          <button
-            onClick={scrollNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded"
-          >
-            ›
-          </button>
+        <p>
+            is overflowing
+        </p>
         </>
       )}
     </div>

@@ -1,6 +1,5 @@
-"use client"
+"use client";
 import HomeComponents from "@/components/home";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -8,9 +7,9 @@ export default function Home() {
       <div className=" max-w-full w-full min-h-screen">
         <div className="">
           <HomeComponents/>
+        
         </div>
       </div>
     </div>
   );
 }
- 

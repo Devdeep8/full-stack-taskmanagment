@@ -7,6 +7,7 @@ export default function Home() {
       <div className=" max-w-full w-full min-h-screen">
         <div className="">
           <HomeComponents/>
+          
         
         </div>
       </div>

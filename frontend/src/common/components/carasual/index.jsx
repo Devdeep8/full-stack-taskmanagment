@@ -28,11 +28,11 @@ export default function BaseCarousel({
 
 
   return (
-    <div className={cn("relative ", className)}>
+    <div className={cn("relative  ", className)}>
       {/* Scroll Container */}
       <div
         ref={containerRef}
-        className="flex gap-4 carousel overflow-x-auto  scroll-smooth "
+        className="flex gap-4 carousel overflow-x-auto scroll-smooth "
       >
         {children}
       </div>

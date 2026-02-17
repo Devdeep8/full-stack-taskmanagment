@@ -2,7 +2,6 @@ import { apiService } from "../apiService";
 
 
 export const GetTop10Games = async (payload = {}) => {
-    console.log(payload)
   try {
     const res = await apiService.get("/games", {
       page: payload.page ?? 1,
@@ -17,11 +16,11 @@ export const GetTop10Games = async (payload = {}) => {
   }
 };
 
-export const GetCategories = async (payload) => {
+export const GetCategories = async (payload = {}) => {
   try {
     const res = await apiService.get("/categories", {
-      page: 1,
-      limit: 10,
+       page: payload.page ?? 1,
+      limit: payload.limit ?? 10,
       ...payload, 
     });
 

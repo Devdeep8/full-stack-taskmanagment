@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCategories } from "../../hooks/useCategories";
-import { Home } from "lucide-react";
+// import { useCategories } from "../../hooks/useCategories";
+// import { Home } from "lucide-react";
 
-export default function CategoriesTab() {
-  const { categories, loading, error } = useCategories();
+export default function CategoriesTab({categories}) {
+  // const { categories, loading, error } = useCategories();
   const pathname = usePathname();
 
-  if (loading) return null;
-  if (error) return null;
 
   return (
     <div className=" max-w-7xl mx-auto mt-4">

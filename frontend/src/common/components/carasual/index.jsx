@@ -31,7 +31,6 @@ export default function BaseCarousel({ children, className }) {
       {/* Buttons only if overflow */}
       {isOverflowing && (
         <>
-          <p>is overflowing</p>
         </>
       )}
     </div>

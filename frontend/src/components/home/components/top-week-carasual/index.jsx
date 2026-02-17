@@ -1,41 +1,14 @@
 "use client";
 
-import { useGames } from "@/components/home/hooks/useGames";
+// import { useGames } from "@/components/home/hooks/useGames";
 import Card from "@/common/components/card";
 import BaseCarousel from "@/common/components/carasual";
 import { ChevronLeft , ChevronRight } from "lucide-react";
 
-export default function GameCarousel() {
-  const { games, loading, error } = useGames({ page: 1, limit: 10 });
+export default function GameCarousel({games}) {
+  // const { games, loading, error } = useGames({ page: 1, limit: 10 });
 
-  if (loading) {
-    return (
-      <BaseCarousel className="py-4">
-        {[...Array(5)].map((_, index) => (
-          <div key={index} className="min-w-35">
-            <div className="bg-gray-800 rounded-lg animate-pulse">
-              <div className="aspect-video bg-gray-700 rounded-t-lg" />
-              <div className="p-4 space-y-3">
-                <div className="h-4 bg-gray-700 rounded w-3/4" />
-                <div className="flex gap-2">
-                  <div className="h-8 bg-gray-700 rounded w-20" />
-                  <div className="h-8 bg-gray-700 rounded w-20" />
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </BaseCarousel>
-    );
-  }
 
-  if (error) {
-    return (
-      <div className="py-4 text-center text-red-500">
-        Error loading games: {error}
-      </div>
-    );
-  }
 
   return (
     <div>

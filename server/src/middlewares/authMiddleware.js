@@ -38,21 +38,35 @@ class AuthMiddleware {
 
       const id = decoded.userId;
 
+      const sessionKey = `session:${id}`;
+      const sessionStr = await req.context.redis.get(sessionKey);
 
-      const user = await db.users.findByPk(id);
 
-      if (!user) {
-        return res.status(401).json({ message: "User not found" });
+
+
+      if (!sessionStr) {
+        console.log(true)
+        return res.status(401).json({ message: "Session expired or invalid" });
       }
+
+      const session = JSON.parse(sessionStr);
+       
+
+      // Optional: check if accessToken matches Redis stored token
+      if (session.accessToken !== accessToken) {
+        return res.status(401).json({ message: "Token mismatch" });
+      }
+
 
       // Attach user from JWT
       req.user = {
-        userId: user.id,
-        username: user.username,
+        userId: session.userId,
+        username: session.username,
 
-        name: user.name,
-        email: user.email,
+        name: session.name,
+        email: session.email,
       };
+
 
       // ("middleware 1 run")
       return next();

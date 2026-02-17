@@ -11,7 +11,7 @@ export default function GameCarousel({games}) {
 
 
   return (
-    <div>
+    <div className=" max-w-7xl mx-auto">
       <div className=" flex justify-between mt-6">
         <h1 className=" text-2xl font-semibold ">
          TOP OF THE WEEK
@@ -40,6 +40,7 @@ export default function GameCarousel({games}) {
             isNew={game.tags?.includes("new")}
             onPlay={() => console.log("Play", game.id)}
             onLike={() => console.log("Like", game.id)}
+            className={ "w-44"}
             />
         </div>
       ))}

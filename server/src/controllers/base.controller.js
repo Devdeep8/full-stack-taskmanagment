@@ -24,10 +24,13 @@ export class BaseController {
    * Execute a service and attach result to res.locals
    */
   async executeService(ServiceClass, req, res, args = {}) {
-    const context = this.buildContext(req);
+    const context = {
+      ...req.context,
+      ...this.buildContext(req),
+    };
     const service = new ServiceClass(args, context);
     const result = await service.execute();
-    
+
     // Attach to res.locals for response middleware
     res.locals.serviceResult = result;
     return result;
@@ -38,10 +41,9 @@ export class BaseController {
    */
   buildContext(req) {
     return {
-      requestId: req.requestId || req.headers['x-request-id'],
       user: req.user,
       ip: req.ip,
-      userAgent: req.get('user-agent'),
+      userAgent: req.get("user-agent"),
       path: req.path,
       method: req.method,
     };
@@ -63,8 +65,8 @@ export class BaseController {
    */
   getFilterParams(req, allowedFilters = []) {
     const filters = {};
-    
-    allowedFilters.forEach(filter => {
+
+    allowedFilters.forEach((filter) => {
       if (req.query[filter] !== undefined) {
         filters[filter] = req.query[filter];
       }
@@ -76,7 +78,7 @@ export class BaseController {
   /**
    * Extract sort params from query
    */
-  getSortParams(req, defaultSort = 'createdAt', defaultOrder = 'DESC') {
+  getSortParams(req, defaultSort = "createdAt", defaultOrder = "DESC") {
     return {
       sortBy: req.query.sortBy || defaultSort,
       order: req.query.order?.toUpperCase() || defaultOrder,
@@ -88,8 +90,8 @@ export class BaseController {
    */
   getSearchParams(req) {
     return {
-      search: req.query.search || req.query.q || '',
-      searchFields: req.query.searchFields?.split(',') || [],
+      search: req.query.search || req.query.q || "",
+      searchFields: req.query.searchFields?.split(",") || [],
     };
   }
 
@@ -97,14 +99,14 @@ export class BaseController {
    * Validate required fields
    */
   validateRequired(data, requiredFields = []) {
-    const missing = requiredFields.filter(field => !data[field]);
-    
+    const missing = requiredFields.filter((field) => !data[field]);
+
     if (missing.length > 0) {
       throw new AppError(
-        `Missing required fields: ${missing.join(', ')}`,
+        `Missing required fields: ${missing.join(", ")}`,
         this.httpStatus.BAD_REQUEST,
-        { code: 'VALIDATION_ERROR', type: 'VALIDATION_ERROR' },
-        this.controllerName
+        { code: "VALIDATION_ERROR", type: "VALIDATION_ERROR" },
+        this.controllerName,
       );
     }
   }
@@ -114,15 +116,15 @@ export class BaseController {
    */
   validateAllowedFields(data, allowedFields = []) {
     const extraFields = Object.keys(data).filter(
-      field => !allowedFields.includes(field)
+      (field) => !allowedFields.includes(field),
     );
-    
+
     if (extraFields.length > 0) {
       throw new AppError(
-        `Unexpected fields: ${extraFields.join(', ')}`,
+        `Unexpected fields: ${extraFields.join(", ")}`,
         this.httpStatus.BAD_REQUEST,
-        { code: 'INVALID_FIELDS', type: 'VALIDATION_ERROR' },
-        this.controllerName
+        { code: "INVALID_FIELDS", type: "VALIDATION_ERROR" },
+        this.controllerName,
       );
     }
   }
@@ -144,7 +146,7 @@ export class BaseController {
    */
   parseQueryFilters(req, filterMapping = {}) {
     const filters = {};
-    
+
     Object.entries(filterMapping).forEach(([queryParam, dbField]) => {
       if (req.query[queryParam]) {
         filters[dbField] = req.query[queryParam];
@@ -152,12 +154,5 @@ export class BaseController {
     });
 
     return filters;
-  }
-
-  /**
-   * Set status code for response middleware
-   */
-  setStatusCode(res, statusCode) {
-    res.locals.statusCode = statusCode;
   }
 }

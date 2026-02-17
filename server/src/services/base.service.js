@@ -2,13 +2,15 @@
 import { httpStatus } from "../utils/http-status.js";
 import { db } from "../models/index.js";
 import AppError from "../utils/appError.js";
+import { redisClient } from "../config/redis.js";
 
 export class BaseService {
   constructor(args = {}, context = {}) {
     this.error = AppError;
     this.args = args;
     this.context = context;
-    this.db = db;
+    this.db = context.db || db;
+    this.redis = context.redis || redisClient;
     this.serviceName = this.constructor.name;
     this.httpStatus = httpStatus;
     this.startTime = Date.now();
@@ -17,7 +19,7 @@ export class BaseService {
   async execute() {
     try {
       const result = await this.run();
-      // this.logSuccess();
+      this.logSuccess();
       return this.buildSuccessResponse(result);
     } catch (error) {
       (`🟡 4 → message [base.service.js:28]`, error);
@@ -58,14 +60,6 @@ export class BaseService {
         timestamp: new Date().toISOString(),
       },
     };
-  }
-
-  /**
-   * Send response to client
-   * Handles both success and error responses in one method
-   */
-  sendResponse(res, result, successCode = this.httpStatus.OK) {
-    return res.status(successCode).json(result);
   }
 
   /**

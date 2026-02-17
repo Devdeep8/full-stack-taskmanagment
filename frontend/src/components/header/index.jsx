@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import LoginModal from "./components/login-model";
 import Link from "next/link";
@@ -7,17 +8,32 @@ import { useSelector } from "react-redux";
 import { IMAGEOBJ } from "../../../public/assets";
 import Image from "next/image";
 import { MenuIcon } from "lucide-react";
+import AuthFetcher from "@/common/hooks/authFeatcher";
+import { Logout } from "@/services/post-service";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { clearUser } from "@/store/reducer";
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const { logo } = IMAGEOBJ;
-
+  const router = useRouter();
   const { user, isAuthenticated } = useSelector((state) => state.userTask);
-  const handleLogout = () => {};
+  const dispatch = useDispatch();
 
+  const handleLogout = async () => {
+    try {
+      await Logout({resaon : "user cliecked logout"}); 
+      dispatch(clearUser());
+      router.refresh();
+    } catch (err) {
+      console.error("Logout failed", err);
+    } // refresh server components
+  };
   return (
     <>
+      <AuthFetcher />
       <header className="fixed top-0  w-full box-border brightness-110 flex items-center bg-background bg-[url('https://wbgame.daracasino.com/Festival/valentine/bg-header-deco.webp')] bg-bottom-left bg-cover shadow-[0_0_5px_0_hsl(220_74%_9.2%/0.5)] text-white text-[18px] tracking-[1px] z-50">
         <div className="flex items-center w-full justify-between px-[19.0469px]">
           <div className="flex justify-center items-center py-4">

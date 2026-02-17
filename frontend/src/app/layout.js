@@ -1,37 +1,43 @@
-"use client";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-import Header from "@/components/header";
-import { Provider } from "react-redux";
-import store from "@/store";
-import AuthFetcher from "@/common/hooks/authFeatcher";
 import { Toaster } from "react-hot-toast";
-import BannerCarousel from "@/components/home/components/banner-carasual";
+import Header from "@/components/header";
+import ReduxProvider from "@/store/provider/ReduxProvider";
 import CategoriesTab from "@/components/home/components/categories";
+import BannerCarousel from "@/components/home/components/banner-carasual";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export default function RootLayout({ children, games, categories}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased   `}>
-        <div className=" bg-[url(https://wbgame.daracasino.com/Festival/valentine/bg-pattern.webp)] ">
-          <Provider store={store}>
-            <AuthFetcher />
-            <div className="pt-20  bg-[url(https://wbgame.daracasino.com/Festival/valentine/bg-pattern.webp)] ">
-              <Header />
+        <ReduxProvider
+          preloadedState={{
+            userTask: {
+              user: [],
+              isAuthenticated: false,
+              tasks: [],
+            },
+          }}
+        >
+          <div className=" bg-[url(https://wbgame.daracasino.com/Festival/valentine/bg-pattern.webp)] mx-2 ">
+            {/* <AuthFetcher /> */}
+            <Header />
+            <div className="pt-20   ">
+              <BannerCarousel />
             </div>
-            <BannerCarousel />
-            <div className="sticky top-16 z-50 bg-background ">
-            {categories}
-            </div>
+              <div className=" sticky top-16 z-10">
+                <CategoriesTab />
+              </div>
+
             {children}
-            {games}
+            {/* {categories} */}
             <Toaster
               position="top-center"
               reverseOrder={false}
@@ -55,8 +61,8 @@ export default function RootLayout({ children, games, categories}) {
                 },
               }}
             />
-          </Provider>
-        </div>
+          </div>
+        </ReduxProvider>
       </body>
     </html>
   );

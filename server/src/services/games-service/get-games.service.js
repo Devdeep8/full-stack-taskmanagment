@@ -15,9 +15,7 @@ export class GetGamesService extends BaseService {
       search = "",
     } = this.args;
 
-    console.log(this.args)
     const where = {};
-
     // ✅ Apply Filters
     if (filters.categoryId) where.categoryId = filters.categoryId;
     if (filters.status) where.status = filters.status;

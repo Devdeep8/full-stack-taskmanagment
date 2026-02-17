@@ -2,13 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userTaskSlice } from "./reducer";
 import { api } from "../services/apiSlice";
 
-export const store  = configureStore({
-    reducer : {
-        userTask : userTaskSlice.reducer,
-        [api.reducerPath] :api.reducer,
+export function makeStore(preloadedState) {
+  return configureStore({
+    reducer: {
+      userTask: userTaskSlice.reducer,
+      [api.reducerPath]: api.reducer,
     },
-    middleware: (getDefaultMiddleware) => 
-        getDefaultMiddleware().concat(api.middleware)
-})
-
-export default store;
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(api.middleware),
+    preloadedState,
+  });
+}

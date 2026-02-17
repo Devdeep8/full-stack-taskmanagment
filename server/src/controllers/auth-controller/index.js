@@ -4,6 +4,7 @@ import CurrnetUserService from "../../services/auth-service/me.service.js";
 import RegisterService from "../../services/auth-service/register.service.js";
 import UpdateUserService from "../../services/user-service/updateuser.service.js";
 import {
+  clearAuthCookies,
   setAccessTokenCookie,
   setRefreshTokenCookie,
 } from "../../utils/cookie.js";
@@ -96,6 +97,13 @@ class AuthController extends BaseController {
 
     return res.status(this.httpStatus.OK).json(data);
   });
+
+  logout = this.asyncHandler(async(req ,res ) => {
+    clearAuthCookies(res)
+    const sessionKey = `session:${req.user.userId}`
+    req.context.redis.del(sessionKey)
+    return res.status(this.httpStatus.OK).json({message : "cookies clear"})
+  })
 }
 
 export default new AuthController();

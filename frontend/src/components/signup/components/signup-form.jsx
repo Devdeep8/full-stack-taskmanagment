@@ -53,7 +53,6 @@ export default function SignupComponent({onClose}) {
       });
 
       const response = await res.json();
-      console.log('response :>> ', response);
 
       if (res.status === 409) {
         if (response?.field === "username") {

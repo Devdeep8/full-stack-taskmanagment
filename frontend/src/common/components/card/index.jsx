@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Play, Heart } from "lucide-react";
+import clsx from "clsx";
 
 export default function Card({
   image = "https://wbgame.daracasino.com/GameIcon/AceWin/5716.webp",
@@ -7,12 +8,23 @@ export default function Card({
   isNew = false,
   onPlay,
   onLike,
+  className,
 }) {
   return (
-    <div className="shadow w-full  relative    group cursor-pointer  overflow-hidden rounded-lg">
+    <div
+      className={clsx(
+        "relative group cursor-pointer overflow-hidden rounded-2xl",
+        className,
+      )}
+    >
       {/* Image */}
-      <div className="relative w-40 aspect-4/5 overflow-hidden rounded-2xl">
-        <Image src={image} alt={title} fill className="object-cover" />
+      <div className="relative w-full aspect-4/5 overflow-hidden rounded-2xl">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className="object-cover group-hover:scale-105 duration-200 ease-in-out"
+        />
       </div>
 
       {isNew && (
@@ -25,20 +37,29 @@ export default function Card({
         <span>{title}</span>
       </div>
 
-      <div className="absolute inset-0 bg-background/80  hidden group-hover:flex flex-col items-center justify-center gap-3 transition-all duration-300">
+      <div
+        className="
+  absolute inset-0
+  hidden group-hover:flex
+  flex-col items-center justify-center gap-3
+  bg-linear-to-b
+  from-primary-white/20
+  to-background/80
+  transition-all duration-300
+"
+      >
+        {" "}
         <button
           onClick={onPlay}
-          className="bg-stress-2 p-3 rounded-full hover:scale-110 transition"
+          className="border-4 border-stress-2 text-stress-2 p-3 rounded-full hover:scale-110 transition"
         >
-          <Play size={18} />
+          <Play size={18} strokeWidth={3}  className=" text-3xl" />
         </button>
-
-        {/* Heart Button */}
         <button
           onClick={onLike}
-          className="bg-[#7f31ff] border border-transparent absolute top-[17%] px-1.5 w-10 rounded-tl-md rounded-bl-md flex justify-center items-center right-0 h-10 transition hover:bg-purple-700"
+          className="bg-[#7f31ff] absolute top-[17%] px-1.5 py-2 w-16 rounded-tl-md rounded-bl-md flex justify-center items-center right-0 h-12 transition hover:bg-purple-700"
         >
-          <Heart size={18} />
+          <Heart size={20} />
         </button>
       </div>
     </div>

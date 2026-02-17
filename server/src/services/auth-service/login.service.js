@@ -6,13 +6,13 @@ import bcrypt from "bcryptjs";
 class LoginService extends BaseService {
   async run() {
     const { username, password } = this.args;
-    const { 
-      ACCESS_TOKEN_SECRET, 
-      REFRESH_TOKEN_SECRET, 
-      ACCESS_TOKEN_TTL, 
-      REFRESH_TOKEN_TTL, 
-      TOKEN_ISSUER, 
-      requestId 
+    const {
+      ACCESS_TOKEN_SECRET,
+      REFRESH_TOKEN_SECRET,
+      ACCESS_TOKEN_TTL,
+      REFRESH_TOKEN_TTL,
+      TOKEN_ISSUER,
+      requestId,
     } = this.args;
 
     const config = {
@@ -57,8 +57,20 @@ class LoginService extends BaseService {
     const accessToken = tokenService.createAccessToken(payload);
     const refreshToken = tokenService.createRefreshToken(payload);
 
+    const sessionKey = `session:${user.id}`;
+    const sessionData = {
+      userId: user.id,
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      accessToken,
+      refreshToken,
+      loginAt: new Date().toISOString(),
+      ip: this.context.ip,
+      userAgent: this.context.userAgent,
+    };
 
-    
+    await this.redis.set(sessionKey, JSON.stringify(sessionData), "EX", 100000); // TTL in seconds)
 
     // Return data matching controller expectations
     return {

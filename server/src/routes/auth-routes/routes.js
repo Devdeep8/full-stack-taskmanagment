@@ -15,6 +15,6 @@ authRoutes.get("/me", authMiddleware.authenticate, authController.me);
 authRoutes.get("/check-username" , authController.checkUsername)
 
 // Protected routes
-// authRoutes.post('/logout', authMiddleware.authenticate, authController.logout );
+authRoutes.post('/logout', authMiddleware.authenticate, authController.logout );
 
 export default authRoutes;

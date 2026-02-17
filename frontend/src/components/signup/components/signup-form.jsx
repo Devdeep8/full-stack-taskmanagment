@@ -32,10 +32,8 @@ export default function SignupComponent({onClose}) {
     formState: { errors, isSubmitting },
   } = form;
 
-  // 👇 realtime username watch
   const username = watch("username");
 
-  // 👇 realtime username check (debounced inside hook)
   const { checking } = useUsernameCheck(username, setError, clearErrors);
 
   const handleSubmit = async (data) => {
@@ -57,7 +55,6 @@ export default function SignupComponent({onClose}) {
       const response = await res.json();
       console.log('response :>> ', response);
 
-      // ❌ Username / Email already exists (example: 409 conflict)
       if (res.status === 409) {
         if (response?.field === "username") {
           setError("username", {
@@ -79,7 +76,6 @@ export default function SignupComponent({onClose}) {
         return;
       }
 
-      // ❌ Validation error (400)
       if (res.status === 400) {
         setError("root", {
           type: "server",
@@ -89,7 +85,6 @@ export default function SignupComponent({onClose}) {
         return;
       }
 
-      // ❌ Other server errors
       if (!res.ok) {
         setError("root", {
           type: "server",
@@ -99,7 +94,6 @@ export default function SignupComponent({onClose}) {
         return;
       }
 
-      // ✅ Success
       const user = response?.data?.user;
 
       if (!user) {
@@ -113,7 +107,6 @@ export default function SignupComponent({onClose}) {
 
       dispatch(setUser(user));
 
-      // Sync RTK Query cache
       dispatch(
         api.endpoints.getUser.initiate(undefined, { forceRefetch: true }),
       );

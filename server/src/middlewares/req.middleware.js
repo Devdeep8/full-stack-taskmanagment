@@ -14,7 +14,6 @@ const reqMiddleware = async (req, res, next) => {
     req.requestId = requestId;
     res.setHeader("x-request-id", requestId);
     // ------------------------
-    // 1️⃣ Body & Content-Type checks (optional if needed)
     // ------------------------
     const METHODS_WITH_BODY = ["POST", "PUT", "PATCH"];
     if (METHODS_WITH_BODY.includes(req.method)) {
@@ -37,10 +36,9 @@ const reqMiddleware = async (req, res, next) => {
       }
     }
 
-    // ✅ DB is healthy, body is okay → continue
     next();
   } catch (err) {
-    next(err); // central error handler will send the response
+    next(err); 
   }
 };
 

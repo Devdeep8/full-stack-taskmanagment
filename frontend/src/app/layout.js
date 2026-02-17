@@ -1,6 +1,8 @@
 "use client";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
 import Header from "@/components/header";
 import { Provider } from "react-redux";
 import store from "@/store";
@@ -27,7 +29,7 @@ export default function RootLayout({ children }) {
           <Header />
           </div>
           <BannerCarousel />
-          <div className="sticky top-16 z-50 ">
+          <div className="sticky top-16 z-50 bg-background ">
             <CategoriesTab />
           </div>
           {children}

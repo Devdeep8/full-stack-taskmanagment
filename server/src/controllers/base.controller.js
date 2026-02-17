@@ -1,4 +1,3 @@
-// base.controller.js
 import { httpStatus } from "../utils/http-status.js";
 import AppError from "../utils/appError.js";
 

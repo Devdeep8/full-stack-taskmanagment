@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCategories } from "../../hooks/useCategories";
+import { Home } from "lucide-react";
 
 export default function CategoriesTab() {
   const { categories, loading, error } = useCategories();
@@ -13,18 +14,14 @@ export default function CategoriesTab() {
 
   return (
     <div className=" max-w-7xl mx-auto mt-4">
-      <div className="flex gap-4 px-4 py-3  no-scrollbar">
-        
+      <div className="flex gap-4 px-4 py-3 items-center  no-scrollbar">
         {/* ✅ Home Tab */}
         <Link
           href="/"
           className={`
-            px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
-            ${
-              pathname === "/"
-                ? "bg-linear-to-r from-pink-600 to-purple-600 text-white"
-                : "bg-muted text-muted-foreground hover:bg-muted/70"
-            }
+           px-3 py-1.5 bg-category font-semibold flex justify-center items-center gap-2
+           rounded-md
+             ${pathname == "/" ? "bg-category/50 text-stress-2" : ""}
           `}
         >
           Home
@@ -39,12 +36,8 @@ export default function CategoriesTab() {
               key={category.id}
               href={`/category/${category.slug}`}
               className={`
-                px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
-                ${
-                  isActive
-                    ? "bg-linear-to-r bg-alert to-background text-white"
-                    : "bg-muted text-muted-foreground hover:bg-muted/70"
-                }
+               px-3 py-1.5 bg-category rounded-md font-semibold
+               ${isActive ? "bg-category/50 text-stress-2" : ""}
               `}
             >
               {category.name}

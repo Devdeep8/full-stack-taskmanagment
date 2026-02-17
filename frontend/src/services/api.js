@@ -3,14 +3,13 @@ import { baseApiUrl } from "./apiSlice";
 
 const api = axios.create({
   baseURL: baseApiUrl,
-  withCredentials: true, // 🔥 IMPORTANT for cookies
+  withCredentials: true, 
   headers: {
     "Content-Type": "application/json",
   },
   
 });
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {

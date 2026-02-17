@@ -56,7 +56,6 @@ app.use('/api/v1', router)
 //error handler
 app.use(errorHandler);
 
-// ✅ Connect to DB first, then start server
 const startServer = async () => {
   await connectDB();
   associateModels();

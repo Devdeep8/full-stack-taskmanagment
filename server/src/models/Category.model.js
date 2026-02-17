@@ -37,7 +37,7 @@ export const Category = sequelize.define(
     },
   },
   {
-    paranoid: true,        // 🔥 Soft delete
+    paranoid: true,        
     tableName: "categories",
     timestamps: true,
   }

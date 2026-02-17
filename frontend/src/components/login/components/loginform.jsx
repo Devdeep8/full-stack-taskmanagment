@@ -40,7 +40,7 @@ export default function LoginComponents({onClose}) {
   const handleLogin = async (data) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`, // or your base url
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`, 
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -51,9 +51,7 @@ export default function LoginComponents({onClose}) {
 
       const response = await res.json();
 
-      // ❌ 401 - invalid credentials
       if (res.status === 401) {
-        // Set field errors (adjust keys based on backend response)
         setError("username", {
           type: "server",
           message: response?.message || "Invalid username or password",
@@ -66,7 +64,6 @@ export default function LoginComponents({onClose}) {
         return;
       }
 
-      // ❌ other errors
       if (!res.ok) {
         setError("root", {
           type: "server",
@@ -75,7 +72,6 @@ export default function LoginComponents({onClose}) {
         return;
       }
 
-      // ✅ success
       const user = response?.data?.user;
       if (!user) {
         setError("root", {
@@ -87,7 +83,6 @@ export default function LoginComponents({onClose}) {
 
       dispatch(setUser(user));
 
-      // refetch /auth/me so RTK Query cache is in sync
       dispatch(
         api.endpoints.getUser.initiate(undefined, { forceRefetch: true }),
       );

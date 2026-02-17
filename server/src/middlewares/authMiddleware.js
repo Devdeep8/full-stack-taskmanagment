@@ -69,7 +69,6 @@ class AuthMiddleware {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
-      // 🔴 Return 401 instead of setting req.user = null
       return res.status(401).json({ message: "No refresh token provided" });
     }
 
@@ -80,7 +79,6 @@ class AuthMiddleware {
       );
 
       if (decodedRefresh.typ !== "refresh") {
-        // 🔴 Return 401 for invalid token type
         return res.status(401).json({ message: "Invalid token type" });
       }
 
@@ -90,17 +88,13 @@ class AuthMiddleware {
       const user = await db.users.findByPk(id);
 
       if (!user) {
-        // 🔴 Return 401 if user not found
         return res.status(401).json({ message: "User not found" });
       }
 
-      // Rotate access token
       const newAccessToken = tokenService.createAccessToken({
         userId: user.id,
       });
       setAccessTokenCookie(res, newAccessToken);
-
-      // Attach full user with permissions
       req.user = {
         userId: user.id,
         name: user.name,
@@ -110,7 +104,6 @@ class AuthMiddleware {
 
       return next();
     } catch (err) {
-      // 🔴 Return 401 for any JWT verification errors
       next(err);
     }
   }

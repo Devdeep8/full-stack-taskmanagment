@@ -16,7 +16,6 @@ export const useCategories = () => {
 
         const res = await GetCategories();
 
-        // Assuming backend returns { data, meta }
         setCategories(res.data.data);
         setMeta(res.meta);
       } catch (err) {
@@ -27,7 +26,7 @@ export const useCategories = () => {
     };
 
     fetchcategories();
-  }, []); // 🔥 
+  }, []);
 
   return { categories, meta, loading, error };
 };

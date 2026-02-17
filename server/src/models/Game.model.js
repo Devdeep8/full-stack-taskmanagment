@@ -42,7 +42,7 @@ export const Game = sequelize.define(
     },
 
     rtp: {
-      type: DataTypes.FLOAT, // Return to Player %
+      type: DataTypes.FLOAT, 
       allowNull: true,
     },
 
@@ -57,7 +57,7 @@ export const Game = sequelize.define(
     },
 
     tags: {
-      type: DataTypes.JSON, // flexible for ["popular", "new", "jackpot"]
+      type: DataTypes.JSON, 
       allowNull: true,
     },
 
@@ -70,7 +70,7 @@ export const Game = sequelize.define(
     },
   },
   {
-    paranoid: true, // 🔥 Soft delete
+    paranoid: true, 
     tableName: "games",
     timestamps: true,
   },

@@ -57,7 +57,7 @@ export default  {
       },
 
       tags: {
-        type: Sequelize.ARRAY(Sequelize.STRING), // 🔥 Postgres Array
+        type: Sequelize.ARRAY(Sequelize.STRING), 
         allowNull: true,
       },
 
@@ -92,7 +92,6 @@ export default  {
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("games");
 
-    // 🔥 Important: Drop ENUM manually in Postgres
     await queryInterface.sequelize.query(
       'DROP TYPE IF EXISTS "enum_games_status";'
     );

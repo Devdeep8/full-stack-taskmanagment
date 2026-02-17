@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
 import { GetTop10Games } from "@/services/get-services";
 
-export const useGames = () => {
+export const useGames = (payload = {}) => {
   const [games, setGames] = useState([]);
   const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,10 +15,8 @@ export const useGames = () => {
       try {
         setLoading(true);
 
-        const res = await GetTop10Games();
-        console.log(res)
+        const res = await GetTop10Games(payload);
 
-        // Assuming backend returns { data, meta }
         setGames(res.data.data);
         setMeta(res.data.meta);
       } catch (err) {
@@ -28,7 +27,7 @@ export const useGames = () => {
     };
 
     fetchGames();
-  }, []); // 🔥
+  }, []);
 
   return { games, meta, loading, error };
 };

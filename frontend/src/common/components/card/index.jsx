@@ -9,36 +9,26 @@ export default function Card({
   onLike,
 }) {
   return (
-    <div className="shadow w-full  relative   max-w-36 group cursor-pointer  overflow-hidden rounded-lg">
+    <div className="shadow w-full  relative    group cursor-pointer  overflow-hidden rounded-lg">
       {/* Image */}
-      <div className="w-40 h-56">
+      <div className="relative w-40 aspect-4/5 overflow-hidden rounded-2xl">
+        <Image src={image} alt={title} fill className="object-cover" />
+      </div>
 
-      <Image
-        src={image}
-        alt={title}
-        className="object-cover rounded-lg group-hover:scale-110 group-hover:duration-150 transition-all group-hover:ease-in-out"
-        fill
-        />
-
-        </div>
-      {/* 🔴 NEW Badge */}
       {isNew && (
         <div className="absolute top-2 left-2 -skew-x-12 rounded-[3px] text-sm shadow-md flex items-center bg-red-600 px-2 transition-all group-hover:-translate-x-20 duration-200 ease-in-out">
           <span className="font-semibold text-white text-xs">NEW</span>
         </div>
       )}
 
-      {/* 🔵 Bottom Title */}
-      <div className="absolute bottom-0 w-full flex justify-center text-[0.6rem] text-white transition-all group-hover:translate-y-7 duration-200 ease-in-out">
+      <div className="absolute bottom-0 w-full flex justify-center text-[0.6rem] transition-all group-hover:translate-y-7 duration-200 ease-in-out">
         <span>{title}</span>
       </div>
 
-      {/* 🟢 Hover Overlay */}
       <div className="absolute inset-0 bg-background/80  hidden group-hover:flex flex-col items-center justify-center gap-3 transition-all duration-300">
-        {/* Play Button */}
         <button
           onClick={onPlay}
-          className="bg-green-500 text-white p-3 rounded-full hover:scale-110 transition"
+          className="bg-stress-2 p-3 rounded-full hover:scale-110 transition"
         >
           <Play size={18} />
         </button>

@@ -51,7 +51,7 @@ import { v4 as uuidv4 } from "uuid";
         rtp: parseFloat(rtp),
         isFeatured: Math.random() > 0.85,
         status: "active",
-        tags: randomTags, // 🔥 Postgres ARRAY
+        tags: randomTags, 
         categoryId: randomCategory.id,
         createdAt: new Date(),
         updatedAt: new Date(),

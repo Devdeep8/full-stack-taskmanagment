@@ -15,7 +15,7 @@ export const PROFILEFIELDS = [
     label: "Username",
     type: "input",
     placeholder: "jmiller23",
-    disabled: true, // ✅ prefilled + readonly
+    disabled: true, 
     readOnly: true,
 
     rules: {
@@ -28,7 +28,7 @@ export const PROFILEFIELDS = [
     name: "email",
     label: "E-Mail ID",
     type: "input",
-    disabled: true, // ✅ prefilled + readonly
+    disabled: true,
     readOnly: true,
     placeholder: "Enter your e-mail id",
     rules: {

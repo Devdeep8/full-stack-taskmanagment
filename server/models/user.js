@@ -42,7 +42,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
-      paranoid: true, // 👈 soft delete ON
+      paranoid: true, 
       tableName: "users",
     },
   );

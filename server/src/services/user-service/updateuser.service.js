@@ -14,15 +14,12 @@ class UpdateUserService extends BaseService {
       );
     }
 
-    // 1️⃣ Find user
     const user = await this.db.users.findByPk(id);
 
     
 
-    // 4️⃣ Update
     await user.update(updateData);
 
-    // 5️⃣ Return fresh user
     return user;
   }
 }

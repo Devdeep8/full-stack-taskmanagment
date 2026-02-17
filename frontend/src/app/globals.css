@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @theme {
   /* Colors - Use actual values, not var() references */
   --color-background: #051438;
@@ -13,6 +14,8 @@
   --color-block: #232957;
   --color-link: #00e676;
   --color-stress: #ff0076;
+  --color-category : #4734a5;
+  --color-slider: #363f68;
   --color-stress-2: #00e676;
 
   /* Coins */

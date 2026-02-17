@@ -54,7 +54,7 @@ export default (sequelize, DataTypes) => {
       sequelize,
       modelName: "Task",
       tableName: "tasks",
-      paranoid: true,        // 👈 soft delete ON
+      paranoid: true,        
       timestamps: true,
     }
   );

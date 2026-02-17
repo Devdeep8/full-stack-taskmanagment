@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../store/reducer"; // your slice
+import { setUser } from "../../store/reducer"; 
 import { useGetUserQuery } from "../../services/apiSlice";
 
 export default function AuthFetcher() {
@@ -13,5 +13,5 @@ export default function AuthFetcher() {
     } 
   }, [isSuccess, user, dispatch]);
 
-  return null; // doesn’t render anything
+  return null;
 }

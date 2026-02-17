@@ -6,7 +6,6 @@ import ProfileHeader from "./components/profileImage";
 export default function ProfileComponent() {
   const { data: user, isLoading, error } = useGetUserQuery();
 
-  // Loading state
   if (isLoading) {
     return (
       <div className="w-full flex items-center justify-center min-h-screen bg-dark text-white">
@@ -18,7 +17,6 @@ export default function ProfileComponent() {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <div className="w-full flex items-center justify-center min-h-screen bg-dark text-white">
@@ -30,7 +28,6 @@ export default function ProfileComponent() {
     );
   }
 
-  // Success state
   return (
     <div className="w-full flex flex-col items-center justify-center bg-dark text-white">
       <div className="mt-4 font-bold text-2xl">

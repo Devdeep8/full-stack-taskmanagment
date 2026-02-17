@@ -6,11 +6,11 @@ class AppError extends Error {
 
     // HTTP status code
     this.statusCode = statusCode;
-    this.status = statusCode; // Alias for compatibility
+    this.status = statusCode;
     
     // Operational vs Programmer error
     this.isOperational = true;
-    this.service = service; // 👈 service name lives here
+    this.service = service; 
     
     // Error code (for API consumers)
     this.code = options.code || this.generateCode(statusCode);
@@ -18,7 +18,6 @@ class AppError extends Error {
     // Error type (for classification)
     this.type = options.type || this.inferType(statusCode);
     
-    // Original error (if wrapping another error)
     this.cause = options.cause;
     
     // Additional metadata

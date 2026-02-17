@@ -1,15 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
-import Carousel from "@/common/components/carasual/my-test";
-import Image from "next/image";
-
 export default function page() {
   return (
-    <div className=" max-w-7xl mx-auto max-h-96 ">
-      <Carousel>
-        <img src="/assets/png/auth.png" alt="placeholder" className="object-cover" />
-        <img src="https://via.placeholder.com/1600x300" alt="placeholder" />
-        <img src="https://via.placeholder.com/1600x300" alt="placeholder" />
-      </Carousel>
+    <div className=" flex justify-center items-center gap-4">
+      <div class="size-20 transform-flat ">
+         <div class="translate-z-12 rotate-x-0 bg-sky-300/75 ...">1</div>
+  <div class="-translate-z-12 rotate-y-18 bg-sky-300/75 ...">2</div>
+  <div class="translate-x-12 rotate-y-90 bg-sky-300/75 ...">3</div>
+  <div class="-translate-x-12 -rotate-y-90 bg-sky-300/75 ...">4</div>
+  <div class="-translate-y-12 rotate-x-90 bg-sky-300/75 ...">5</div>
+  <div class="translate-y-12 -rotate-x-90 bg-sky-300/75 ...">6</div>
+      </div>
+      <div class="size-20 transform-3d ">
+        </div>
     </div>
   );
 }

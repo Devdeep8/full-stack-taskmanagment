@@ -6,7 +6,7 @@ function useDebounce(value, delay = 500, minLength = 0) {
   useEffect(() => {
     const handler = setTimeout(() => {
       if (!value || value.length < minLength) {
-        setDebouncedValue("");   // ✅ reset when too short
+        setDebouncedValue("");
         return;
       }
       setDebouncedValue(value);

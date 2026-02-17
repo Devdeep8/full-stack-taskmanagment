@@ -15,6 +15,7 @@ export class GetGamesService extends BaseService {
       search = "",
     } = this.args;
 
+    console.log(this.args)
     const where = {};
 
     // ✅ Apply Filters

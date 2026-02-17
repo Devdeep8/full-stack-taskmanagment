@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useDebounce from "@/common/hooks/useDebounce";
+import { baseApiUrl } from "@/services/apiSlice";
 
 export function useUsernameCheck(username, setError, clearErrors) {
   const [checking, setChecking] = useState(false);
@@ -16,7 +17,7 @@ export function useUsernameCheck(username, setError, clearErrors) {
         setChecking(true);
 
         const res = await fetch(
-          `http://localhost:4000/api/v1/auth/check-username?username=${encodeURIComponent(
+          `${baseApiUrl}/auth/check-username?username=${encodeURIComponent(
             debouncedUsername
           )}`,
           { credentials: "include" }

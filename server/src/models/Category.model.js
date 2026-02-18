@@ -25,16 +25,6 @@ export const Category = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-
-    status: {
-      type: DataTypes.ENUM("active", "inactive"),
-      defaultValue: "active",
-    },
-
-    parentId: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
   },
   {
     paranoid: true,        

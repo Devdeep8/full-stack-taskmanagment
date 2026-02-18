@@ -20,8 +20,8 @@ export class GetSingleCategory extends BaseService {
       include.push({
         model: this.db.games,
         as: "games",
-        attributes: ["id", "name", "rtp", "status", "provider", "categoryId"],
-        where: Object.keys(gameWhere).length ? gameWhere : undefined,
+        attributes: ["id", "name", "rtp", "status", "provider", "categoryId", "slug"],
+        where: Object.keys(gameWhere).length ? gameWhere : undefined, 
         required: false, // include category even if it has no games
       });
     }

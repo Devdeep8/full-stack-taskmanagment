@@ -15,19 +15,34 @@ export const Wallet = sequelize.define(
       allowNull: false,
     },
 
-    balance: {
-      type: DataTypes.FLOAT,
+    goldCoinBalance: {
+      type: DataTypes.BIGINT,
       defaultValue: 0,
+      allowNull: false,
     },
 
-    currency: {
-      type: DataTypes.STRING,
+    sweepCoinBalance: {
+      type: DataTypes.DECIMAL(10, 4),
+      defaultValue: 0.0,
       allowNull: false,
-      defaultValue: "USD",
+    },
+
+    redeemableSweepCoinBalance: {
+      type: DataTypes.DECIMAL(10, 4),
+      defaultValue: 0.0,
+      allowNull: false,
+    },
+
+    isLocked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {
     paranoid: true,
     tableName: "wallets",
+    indexes: [
+      { unique: true, fields: ["userId"] },
+    ],
   }
 );

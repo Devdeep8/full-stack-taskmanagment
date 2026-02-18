@@ -7,6 +7,6 @@ const gamesRoutes = express.Router();
 
 
 gamesRoutes.get("/" , gamesController.getGames)
-
+gamesRoutes.get("/:categorySlug/:gameSlug" , gamesController.getSingleGameByCategory)
 
 export default gamesRoutes;

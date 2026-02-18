@@ -56,7 +56,7 @@ class RegisterService extends BaseService {
         {
           userId: user.id,
           balance: 0,
-          currency: "USD",
+          currency: "RSP",
         },
         { transaction: t },
       );

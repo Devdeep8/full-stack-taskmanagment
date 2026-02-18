@@ -17,7 +17,7 @@ export default function GamesCoverflow() {
 
   return (
     <div className=" max-w-7xl w-full mx-auto py-16">
-      <div className=" ">
+      <div className=" px-2 py-2 ">
         <h1 className="text-2xl font-semibold">SHOOT & WIN </h1>
       </div>
       <Swiper

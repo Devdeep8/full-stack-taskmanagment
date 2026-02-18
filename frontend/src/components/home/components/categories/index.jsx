@@ -11,8 +11,8 @@ export default function CategoriesTab() {
 
   return (
     <div className=" bg-background py-2">
-      <div className=" max-w-7xl  mx-auto mt-4">
-        <div className="flex gap-4 px-4 py-3 items-center  no-scrollbar">
+      <div className=" lg:max-w-7xl  overflow-x-scroll lg:overflow-hidden scrollbar-hide  mx-auto mt-4">
+        <div className="flex gap-4 px-4 py-3 items-center  sm:text-sm  no-scrollbar">
           {/* ✅ Home Tab */}
           <Link
             href="/"
@@ -27,14 +27,14 @@ export default function CategoriesTab() {
 
           {/* ✅ Categories */}
           {categories?.map((category) => {
-            const isActive = pathname === `/${category.slug}`;
+            const isActive = pathname === `/games/${category.slug}`;
 
             return (
               <Link
                 key={category.id}
-                href={`/${category.slug}`}
+                href={`/games/${category.slug}`}
                 className={`
-              px-3 py-1.5 bg-category rounded-md font-semibold
+              px-3 py-1.5 bg-category rounded-md shrink-0 text-sm  font-semibold
               ${isActive ? "bg-category/50 text-stress-2" : ""}
               `}
               >

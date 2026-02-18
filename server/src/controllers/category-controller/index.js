@@ -37,7 +37,6 @@ class CategoryController extends BaseController {
       "provider",
       "gameName",
     ]);
-    console.log('filters :>> ', filters);
     const includeGames = filters.games === "true" || filters.games === true;
 
     const category = await this.executeService(GetSingleCategory, req, res, {

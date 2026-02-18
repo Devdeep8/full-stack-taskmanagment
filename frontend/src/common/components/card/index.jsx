@@ -13,7 +13,7 @@ export default function Card({
   return (
     <div
       className={clsx(
-        "relative group cursor-pointer overflow-hidden rounded-2xl",
+        "relative group cursor-pointer overflow-hidden rounded-3xl",
         className,
       )}
     >
@@ -37,23 +37,12 @@ export default function Card({
         <span>{title}</span>
       </div>
 
-      <div
-        className="
-  absolute inset-0
-  hidden group-hover:flex
-  flex-col items-center justify-center gap-3
-  bg-linear-to-b
-  from-primary-white/20
-  to-background/80
-  transition-all duration-300
-"
-      >
-        {" "}
+      <div className=" absolute inset-0 hidden group-hover:flex flex-col items-center justify-center gap-3 bg-linear-to-b from-primary-white/20 to-background/80 transition-all duration-300">
         <button
           onClick={onPlay}
           className="border-4 border-stress-2 text-stress-2 p-3 rounded-full hover:scale-110 transition"
         >
-          <Play size={18} strokeWidth={3}  className=" text-3xl" />
+          <Play size={18} strokeWidth={3} className=" text-3xl" />
         </button>
         <button
           onClick={onLike}

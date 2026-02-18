@@ -1,11 +1,14 @@
 "use client";
+import GameGrid from "@/components/home/components/free-to-play-games";
+import GameCarousel from "@/components/home/components/top-week-carasual";
+import GamesCoverflow from "./components/coverflow-carasual";
 
-import GameCarousel from "./components/top-week-carasual";
-
-export default function HomeComponents() {
+export default function HomeComponents({games}) {
   return (
-    <div className=" max-w-7xl mx-auto mt-4">
-      <GameCarousel />
+    <div className=" ">
+      <GameCarousel games={games.slice(0, 10)} />
+      <GameGrid games={games} />
+      <GamesCoverflow />
 
     </div>
   );

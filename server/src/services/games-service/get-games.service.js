@@ -28,7 +28,6 @@ export class GetGamesService extends BaseService {
         [Op.iLike]: `%${search}%`,
       };
     }
-    console.log(where)
 
     const { count, rows } = await db.games.findAndCountAll({
       where,

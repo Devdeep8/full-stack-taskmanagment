@@ -4,7 +4,6 @@ import { BaseService } from "../base.service.js";
 export class GetSingleCategory extends BaseService {
   async run() {
     const { identifier, filters = {}, includeGames = false } = this.args;
-    console.log(identifier, this.args);
     // ✅ Build where clause safely
     const where = {};
     if (identifier) where.slug = identifier; // only add if exists

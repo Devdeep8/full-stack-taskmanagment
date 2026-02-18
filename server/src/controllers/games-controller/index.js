@@ -12,7 +12,6 @@ class GameController extends BaseController {
       "provider",
     ]);
 
-    console.log(req.query)
 
     const { sortBy, order } = this.getSortParams(req);
 

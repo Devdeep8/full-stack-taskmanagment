@@ -41,7 +41,6 @@ export default function GamesFilter({ categories = [] }) {
 
   useEffect(() => {
     if (data?.data) {
-      console.log(data.data);
       dispatch(setGames(data.data)); // ← data.data is the games array
     }
   }, [data]);

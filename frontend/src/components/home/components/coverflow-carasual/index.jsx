@@ -8,8 +8,8 @@ import "swiper/css/effect-coverflow";
 import { useGames } from "@/components/home/hooks/useGames";
 import Card from "@/common/components/card";
 
-function GamesCoverflow() {
-  const { games, loading } = useGames({page : 1 , limit : 20});
+export default function GamesCoverflow() {
+  const { games, loading } = useGames({ page: 1, limit: 20 });
 
   if (loading) {
     return <div className="text-white text-center py-20">Loading games...</div>;
@@ -17,6 +17,9 @@ function GamesCoverflow() {
 
   return (
     <div className=" max-w-7xl w-full mx-auto py-16">
+      <div className=" ">
+        <h1 className="text-2xl font-semibold">SHOOT & WIN </h1>
+      </div>
       <Swiper
         modules={[EffectCoverflow]}
         effect="coverflow"
@@ -30,25 +33,27 @@ function GamesCoverflow() {
           depth: 300,
           slideShadows: false,
         }}
-        className=""
+        className=" flex justify-center items-center"
       >
         {games.map((game) => (
-          <SwiperSlide key={game.id} className="w-64!">
-            <Card
-              image={game.icon || game.image}
-              title={game.name}
-              isNew={game.isNew}
-              onPlay={() => console.log("Play", game.name)}
-              onLike={() => console.log("Like", game.name)}
-              className={"w-60"}
-            />
+          <SwiperSlide key={game.id} className="w-64! ">
+            {({ isActive }) => {
+              return (
+                <Card
+                  image={game.icon || game.image}
+                  title={game.name}
+                  isNew={game.isNew}
+                  onPlay={() => console.log("Play", game.name)}
+                  onLike={() => console.log("Like", game.name)}
+                  className={`w-60 
+                    ${isActive ? "shadow-[0_0_10px_#ff4081] border-alert border-2" : ""}
+                    `}
+                />
+              );
+            }}
           </SwiperSlide>
         ))}
       </Swiper>
     </div>
   );
-}
-
-export default function Page() {
-  return <GamesCoverflow />;
 }

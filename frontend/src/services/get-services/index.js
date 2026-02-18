@@ -47,3 +47,20 @@ export const GetCategory = async (identifier, payload = {}) => {
     throw error;
   }
 };
+
+export const GetCategoryGame = async (identifier, payload = {}) => {
+  try {
+    if (!identifier) throw new Error("Category identifier is required");
+
+    const res = await apiService.get(`/games/${identifier}`, {
+      page: payload.page ?? 1,
+      limit: payload.limit ?? 10,
+      ...payload, // e.g., games=true, provider='xyz', etc.
+    });
+
+    return res;
+  } catch (error) {
+    console.error("GetCategory error:", error);
+    throw error;
+  }
+};

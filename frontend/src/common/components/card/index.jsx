@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Play, Heart } from "lucide-react";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function Card({
   image = "https://wbgame.daracasino.com/GameIcon/AceWin/5716.webp",
@@ -9,6 +10,8 @@ export default function Card({
   onPlay,
   onLike,
   className,
+  category ="sweepstakes-slots",
+  slug
 }) {
   return (
     <div
@@ -17,6 +20,7 @@ export default function Card({
         className,
       )}
     >
+      <Link href={`/games/${category}/${slug}`}>
       {/* Image */}
       <div className="relative w-full aspect-4/5 overflow-hidden rounded-2xl">
         <Image
@@ -24,7 +28,7 @@ export default function Card({
           alt={title}
           fill
           className="object-cover group-hover:scale-105 duration-200 ease-in-out"
-        />
+          />
       </div>
 
       {isNew && (
@@ -51,6 +55,7 @@ export default function Card({
           <Heart size={20} />
         </button>
       </div>
+          </Link>
     </div>
   );
 }

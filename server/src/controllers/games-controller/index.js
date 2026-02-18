@@ -7,9 +7,12 @@ class GameController extends BaseController {
 
     const filters = this.getFilterParams(req, [
       "categoryId",
+      "categorySlug",
       "status",
       "provider",
     ]);
+
+    console.log(req.query)
 
     const { sortBy, order } = this.getSortParams(req);
 

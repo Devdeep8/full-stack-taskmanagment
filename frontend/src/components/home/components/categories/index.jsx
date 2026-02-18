@@ -27,12 +27,12 @@ export default function CategoriesTab() {
 
           {/* ✅ Categories */}
           {categories?.map((category) => {
-            const isActive = pathname === `/category/${category.slug}`;
+            const isActive = pathname === `/${category.slug}`;
 
             return (
               <Link
                 key={category.id}
-                href={`/category/${category.slug}`}
+                href={`/${category.slug}`}
                 className={`
               px-3 py-1.5 bg-category rounded-md font-semibold
               ${isActive ? "bg-category/50 text-stress-2" : ""}

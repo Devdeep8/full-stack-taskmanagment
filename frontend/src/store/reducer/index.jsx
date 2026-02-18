@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   isAuthenticated: false,
-  tasks: [],
+  games: [],
+  gamesLoading: false, // ✅
 };
 
 export const userTaskSlice = createSlice({
@@ -17,23 +18,27 @@ export const userTaskSlice = createSlice({
     clearUser: (state) => {
       state.user = null;
       state.isAuthenticated = false;
-      state.tasks = [];
+      state.games = []; // ✅ was state.tasks
     },
-    setTasks: (state, action) => {
-      state.tasks = action.payload;
+    setGames: (state, action) => {
+      state.games = action.payload; // ✅ was state.tasks
     },
-    addTask: (state, action) => {
-      state.tasks.push(action.payload);
+    addGames: (state, action) => {
+      state.games.push(action.payload); // ✅ was state.tasks
     },
-    updateTask: (state, action) => {
-      const index = state.tasks.findIndex((t) => t.id === action.payload.id);
-      if (index !== -1) state.tasks[index] = action.payload;
+    updateGames: (state, action) => {
+      const index = state.games.findIndex((g) => g.id === action.payload.id); // ✅
+      if (index !== -1) state.games[index] = action.payload;
     },
-    deleteTask: (state, action) => {
-      state.tasks = state.tasks.filter((t) => t.id !== action.payload);
+    deleteGames: (state, action) => {
+      state.games = state.games.filter((g) => g.id !== action.payload); // ✅
     },
-    clearTasks: (state) => {
-      state.tasks = [];
+    clearGames: (state) => {
+      state.games = []; // ✅
+    },
+    setGamesLoading: (state, action) => {
+      // ✅
+      state.gamesLoading = action.payload;
     },
   },
 });
@@ -41,9 +46,9 @@ export const userTaskSlice = createSlice({
 export const {
   setUser,
   clearUser,
-  setTasks,
-  addTask,
-  updateTask,
-  deleteTask,
-  clearTasks,
+  setGames,
+  addGames,
+  updateGames, 
+  clearGames, 
+  setGamesLoading
 } = userTaskSlice.actions;

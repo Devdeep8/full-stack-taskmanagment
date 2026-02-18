@@ -19,7 +19,10 @@ export class BaseService {
   async execute() {
     try {
       const result = await this.run();
-      this.logSuccess();
+      if(result){
+
+        this.logSuccess();
+      }
       return this.buildSuccessResponse(result);
     } catch (error) {
       (`🟡 4 → message [base.service.js:28]`, error);

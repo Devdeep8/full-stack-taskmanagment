@@ -15,9 +15,10 @@ export class GetGamesService extends BaseService {
       search = "",
     } = this.args;
 
+
     const where = {};
     // ✅ Apply Filters
-    if (filters.categoryId) where.categoryId = filters.categoryId;
+    if (filters.categoryId && filters.categoryId != null) where.categoryId = filters.categoryId;
     if (filters.status) where.status = filters.status;
     if (filters.provider) where.provider = filters.provider;
 
@@ -27,6 +28,7 @@ export class GetGamesService extends BaseService {
         [Op.iLike]: `%${search}%`,
       };
     }
+    console.log(where)
 
     const { count, rows } = await db.games.findAndCountAll({
       where,
@@ -41,7 +43,7 @@ export class GetGamesService extends BaseService {
       ],
     });
 
-    if(!count) throw new this.error("Games not their " , this.httpStatus.BAD_REQUEST , {} ,GetGamesService )
+    if(!count) throw new this.error("Games not their " , this.httpStatus.NOT_FOUND , {} ,GetGamesService )
 
     return {
       page: {

@@ -7,6 +7,6 @@ const categoriesRoutes = express.Router();
 
 
 categoriesRoutes.get("/" , categoryController.getCategories)
+categoriesRoutes.get("/:identifier" , categoryController.getSingleCategory)
 
-
-export default categoriesRoutes;
+export default categoriesRoutes; 

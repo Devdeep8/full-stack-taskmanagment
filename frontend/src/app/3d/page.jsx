@@ -16,7 +16,7 @@ function GamesCoverflow() {
   }
 
   return (
-    <div className=" max-w-7xl w-full py-16">
+    <div className=" max-w-7xl w-full mx-auto py-16">
       <Swiper
         modules={[EffectCoverflow]}
         effect="coverflow"
@@ -25,21 +25,22 @@ function GamesCoverflow() {
         slidesPerView="auto"
         grabCursor={true}
         coverflowEffect={{
+          rotate: 0,
           stretch: 0,
           depth: 300,
-          modifier: 1,
           slideShadows: false,
         }}
         className=""
       >
         {games.map((game) => (
-          <SwiperSlide key={game.id} className="w-45!">
+          <SwiperSlide key={game.id} className="w-64!">
             <Card
               image={game.icon || game.image}
               title={game.name}
               isNew={game.isNew}
               onPlay={() => console.log("Play", game.name)}
               onLike={() => console.log("Like", game.name)}
+              className={"w-60"}
             />
           </SwiperSlide>
         ))}

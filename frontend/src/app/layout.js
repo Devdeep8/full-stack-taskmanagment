@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
             userTask: {
               user: [],
               isAuthenticated: false,
-              tasks: [],
+              games: [],
             },
           }}
         >

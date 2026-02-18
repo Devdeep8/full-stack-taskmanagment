@@ -25,6 +25,8 @@ export default function ProfileForm({ user }) {
       return;
     }
 
+    const res = await updateUserData(data)
+
     toast.success("Profile updated");
   };
 

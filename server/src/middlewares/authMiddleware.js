@@ -42,20 +42,15 @@ class AuthMiddleware {
       const sessionStr = await req.context.redis.get(sessionKey);
 
 
-
-
+      
+      
       if (!sessionStr) {
-        console.log(true)
         return res.status(401).json({ message: "Session expired or invalid" });
       }
-
+      
       const session = JSON.parse(sessionStr);
-       
+      
 
-      // Optional: check if accessToken matches Redis stored token
-      if (session.accessToken !== accessToken) {
-        return res.status(401).json({ message: "Token mismatch" });
-      }
 
 
       // Attach user from JWT

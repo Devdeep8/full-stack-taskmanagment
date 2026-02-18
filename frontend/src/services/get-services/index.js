@@ -1,6 +1,5 @@
 import { apiService } from "../apiService";
 
-
 export const GetTop10Games = async (payload = {}) => {
   try {
     const res = await apiService.get("/games", {
@@ -19,14 +18,32 @@ export const GetTop10Games = async (payload = {}) => {
 export const GetCategories = async (payload = {}) => {
   try {
     const res = await apiService.get("/categories", {
-       page: payload.page ?? 1,
+      page: payload.page ?? 1,
       limit: payload.limit ?? 10,
-      ...payload, 
+      ...payload,
     });
 
-    return res; 
+    return res;
   } catch (error) {
     console.error("Categories error:", error);
+    throw error;
+  }
+};
+
+// src/services/get-services.js (or wherever your services are)
+export const GetCategory = async (identifier, payload = {}) => {
+  try {
+    if (!identifier) throw new Error("Category identifier is required");
+
+    const res = await apiService.get(`/categories/${identifier}`, {
+      page: payload.page ?? 1,
+      limit: payload.limit ?? 10,
+      ...payload, // e.g., games=true, provider='xyz', etc.
+    });
+
+    return res;
+  } catch (error) {
+    console.error("GetCategory error:", error);
     throw error;
   }
 };

@@ -55,8 +55,6 @@ class RegisterService extends BaseService {
       const wallet = await this.db.wallet.create(
         {
           userId: user.id,
-          balance: 0,
-          currency: "RSP",
         },
         { transaction: t },
       );

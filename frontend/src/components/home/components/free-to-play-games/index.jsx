@@ -3,6 +3,7 @@
 import Card from "@/common/components/card";
 
 export default function GameGrid({ games }) {
+  console.log('games :>> ', games);
   return (
     <div className="max-w-7xl mx-auto">
 
@@ -22,6 +23,8 @@ export default function GameGrid({ games }) {
               className="w-52 "
               image={game.imageUrl}
               title={game.name}
+              category={game.category.slug}
+              slug={game.slug}
               isNew={game.tags?.includes("new")}
               onPlay={() => console.log("Play", game.id)}
               onLike={() => console.log("Like", game.id)}

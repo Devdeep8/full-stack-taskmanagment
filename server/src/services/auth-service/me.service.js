@@ -5,7 +5,21 @@ class CurrnetUserService extends BaseService {
     const { args } = this.args;
 
     try {
-      const user = await this.db.users.findByPk(args);
+      const user = await this.db.users.findByPk(args, {
+        include: [
+          {
+            model: this.db.wallets,
+            as: "wallet",
+            attributes: [
+              "id",
+              "goldCoinBalance",
+              "sweepCoinBalance",
+              "redeemableSweepCoinBalance",
+              "userId",
+            ], 
+          },
+        ],
+      });
       if (!user) {
         throw new this.AppError("User not found", 404);
       }

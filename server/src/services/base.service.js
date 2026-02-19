@@ -66,7 +66,7 @@ export class BaseService {
    * Log success for monitoring
    */
   logSuccess(message = "Operation successful") {
-    (`[${this.serviceName}] ✓ Success`,
+    console.log(`[${this.serviceName}] ✓ Success`,
       {
         message: message,
         service: this.serviceName,

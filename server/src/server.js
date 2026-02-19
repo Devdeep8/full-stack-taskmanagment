@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config(); 
-
+dotenv.config();
 
 import express from "express";
 import cors from "cors";
@@ -16,17 +15,32 @@ import responseMiddleware from "./middlewares/response.middleware.js";
 
 //routes
 import router from "./routes/index.js";
+import contextMiddleware from "./middlewares/database.middleware.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buff) => {
+      req.rawBody = buff;
+    },
+  }),
+);
+
+// if (req.originalUrl === "/api/v1/payment/webhook") {
+//   next(); // skip JSON parsing for webhook
+// } else {
+//   express.json()(req, res, next);
+// }
+
 app.use(express.urlencoded({ extended: true }));
 
-
 //custom middleware
-app.use(reqMiddleware)
-app.use(responseMiddleware)
+app.use(reqMiddleware);
+app.use(contextMiddleware);
+app.use(responseMiddleware);
 
 app.use(
   cors({
@@ -48,10 +62,28 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.use('/api/v1', router)
+app.get("/balance", authMiddleware.authenticate, async (req, res) => {
+  const user = req.user;
+  try {
+    const walletBalance = await req.context.db.wallets.findOne({
+      where: {
+        userId: user.userId,
+      },
+    });
+    return res.status(200).json({
+      walletBalance,
+      status: "OK",
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.use("/api/v1", router);
 
 //routes
-
 
 //error handler
 app.use(errorHandler);

@@ -37,7 +37,7 @@ export class GetGamesService extends BaseService {
       include: [
         {
           model: this.db.categories, // inverse from Category.hasMany
-          attributes: ["id", "name"],
+          attributes: ["id", "name" , "slug"],
         },
       ],
     });

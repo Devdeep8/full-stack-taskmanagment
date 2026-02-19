@@ -59,6 +59,9 @@ importers:
       sequelize:
         specifier: ^6.37.7
         version: 6.37.7(pg@8.18.0)
+      stripe:
+        specifier: ^20.3.1
+        version: 20.3.1(@types/node@25.2.0)
       uuid:
         specifier: ^13.0.0
         version: 13.0.0
@@ -1028,6 +1031,15 @@ packages:
   strip-ansi@7.1.2:
     resolution: {integrity: sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA==}
     engines: {node: '>=12'}
+
+  stripe@20.3.1:
+    resolution: {integrity: sha512-k990yOT5G5rhX3XluRPw5Y8RLdJDW4dzQ29wWT66piHrbnM2KyamJ1dKgPsw4HzGHRWjDiSSdcI2WdxQUPV3aQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@types/node': '>=16'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -2142,6 +2154,10 @@ snapshots:
   strip-ansi@7.1.2:
     dependencies:
       ansi-regex: 6.2.2
+
+  stripe@20.3.1(@types/node@25.2.0):
+    optionalDependencies:
+      '@types/node': 25.2.0
 
   supports-color@5.5.0:
     dependencies:

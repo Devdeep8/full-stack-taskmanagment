@@ -44,7 +44,7 @@ function Modal({
       <div
         ref={modalRef}
         className={cn(
-          "relative bg-dark rounded-xl shadow-2xl w-full max-w-lg max-h-full overflow-y-scroll transform transition-all border",
+          "relative bg-dark rounded-xl shadow-2xl w-full max-w-lg max-h-full overflow-y-scroll transform transition-all ",
           className
         )}
       >

@@ -4,98 +4,80 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-//db connection
-import { connectDB } from "./config/db.js";
-import { associateModels, db } from "./models/index.js";
 
-//middleware
+import { connectDB } from "./config/db.js";
+import { associateModels } from "./models/index.js";
+
 import errorHandler from "./middlewares/error.middleware.js";
 import reqMiddleware from "./middlewares/req.middleware.js";
 import responseMiddleware from "./middlewares/response.middleware.js";
-
-//routes
 import router from "./routes/index.js";
 import contextMiddleware from "./middlewares/database.middleware.js";
-import authMiddleware from "./middlewares/authMiddleware.js";
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// 🔹 DB Init
+let isConnected = false;
+
+const initDB = async () => {
+  if (!isConnected) {
+    await connectDB();
+    associateModels();
+    isConnected = true;
+    console.log("✅ Database connected");
+  }
+};
+
+// 🔹 Middlewares
 app.use(cookieParser());
+
 app.use(
   express.json({
     verify: (req, res, buff) => {
       req.rawBody = buff;
     },
-  }),
+  })
 );
-
-// if (req.originalUrl === "/api/v1/payment/webhook") {
-//   next(); // skip JSON parsing for webhook
-// } else {
-//   express.json()(req, res, next);
-// }
 
 app.use(express.urlencoded({ extended: true }));
 
-//custom middleware
 app.use(reqMiddleware);
 app.use(contextMiddleware);
 app.use(responseMiddleware);
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
-  }),
+  })
 );
 
-app.get("/", async (req, res) => {
-  console.log("health check");
-  try {
-    return res.status(200).json({
-      status: "OK",
-      uptime: process.uptime(),
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.get("/balance", authMiddleware.authenticate, async (req, res) => {
-  const user = req.user;
-  try {
-    const walletBalance = await req.context.db.wallets.findOne({
-      where: {
-        userId: user.userId,
-      },
-    });
-    return res.status(200).json({
-      walletBalance,
-      status: "OK",
-      uptime: process.uptime(),
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    console.log(error);
-  }
+// 🔹 Routes
+app.get("/", (req, res) => {
+  res.json({ status: "OK" });
 });
 
 app.use("/api/v1", router);
 
-//routes
-
-//error handler
 app.use(errorHandler);
 
-const startServer = async () => {
-  await connectDB();
-  associateModels();
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port http://localhost:${PORT}`);
+/*
+====================================================
+✅ LOCAL MODE → run with app.listen
+====================================================
+*/
+if (process.env.NODE_ENV !== "production") {
+  initDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Local server running on http://localhost:${PORT}`);
+    });
   });
-};
+}
 
-startServer();
-
+/*
+====================================================
+☁️ VERCEL MODE → just export app
+====================================================
+*/
 export default app;

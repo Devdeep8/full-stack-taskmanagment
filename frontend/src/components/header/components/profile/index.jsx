@@ -79,7 +79,7 @@ const ProfileDropDown = ({ user, onLogout }) => {
                   </span>
                 </div>
                 <span className="text-xs font-bold text-sc ">
-                  {wallet.sweepCoinBalance}
+                  {parseFloat(wallet.sweepCoinBalance).toFixed(2)}
                 </span>
               </div>
 

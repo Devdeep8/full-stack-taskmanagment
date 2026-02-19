@@ -4,6 +4,7 @@ import AppError from "../../utils/appError.js";
 class UpdateUserService extends BaseService {
   async run() {
     const { id, updateData } = this.args;
+    console.log('this.args :>> ', this.args);
 
     if (!id) {
       throw new AppError(

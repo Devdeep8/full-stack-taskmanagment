@@ -3,7 +3,6 @@
 import Card from "@/common/components/card";
 
 export default function GameGrid({ games }) {
-  console.log('games :>> ', games);
   return (
     <div className="max-w-7xl mx-auto">
 

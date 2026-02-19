@@ -7,7 +7,7 @@ export default function SelectField({ field, config, error }) {
 
       <select
         {...field}
-        className={`w-full bg-primary-2 text-white px-3 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow ${
+        className={`w-full bg-primary-2 text-white bg-block px-3 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow ${
           error ? "border-red-500" : "border-white/40"
         }`}
       >

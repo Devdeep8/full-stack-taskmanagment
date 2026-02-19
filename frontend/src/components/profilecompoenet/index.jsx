@@ -8,7 +8,7 @@ export default function ProfileComponent() {
 
   if (isLoading) {
     return (
-      <div className="w-full flex items-center justify-center min-h-screen bg-dark text-white">
+      <div className="w-full flex flex-col items-center justify-center bg-dark text-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
           <p className="mt-4">Loading profile...</p>
@@ -19,7 +19,7 @@ export default function ProfileComponent() {
 
   if (error) {
     return (
-      <div className="w-full flex items-center justify-center min-h-screen bg-dark text-white">
+      <div className="w-full flex items-center justify-center  bg-dark text-white">
         <div className="text-center text-red-500">
           <p>Failed to load profile</p>
           <p className="text-sm mt-2">{error.message}</p>

@@ -107,9 +107,7 @@ export default function LoginComponents({onClose}) {
         onSubmit={handleLogin}
         className="flex flex-col gap-4"
       />
-      <button >
-
-      </button>
+     
 
     </div>
   );

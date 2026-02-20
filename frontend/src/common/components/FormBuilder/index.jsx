@@ -49,9 +49,14 @@ export default function DynamicForm({
       })}
 
       {showButton && (
-        <button type="submit" className=" bg-dark-3  px-4 py-2 mt-4 rounded-lg">
-          {submitButtonText}
-        </button>
+        <div className=" flex justify-center items-center ">
+          <button
+            type="submit"
+            className=" bg-block  px-4 py-2 mt-4 rounded-lg"
+          >
+            {submitButtonText}
+          </button>
+        </div>
       )}
     </form>
   );

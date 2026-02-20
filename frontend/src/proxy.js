@@ -25,13 +25,6 @@ export function proxy(request) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all routes except:
-     * - api routes
-     * - next static files
-     * - next image optimization
-     * - favicon
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico)).*)",
   ],
 };

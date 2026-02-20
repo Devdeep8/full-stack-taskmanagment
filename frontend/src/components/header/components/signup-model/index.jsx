@@ -16,7 +16,7 @@ const SignupModal = ({ isOpen, onClose }) => {
                  2xl:max-w-7xl    
                  max-h-[92vh] 
                  rounded-xl 
-                 overflow-hidden"
+                 overflow-hidden bg-[#411654]"
     >
       <div className="flex flex-col md:flex-row w-full min-h-150 md:min-h-175 items-center">
         {/* Left Image */}

@@ -4,12 +4,13 @@ import LoginComponents from "../../../login/components/loginform";
 import { IMAGEOBJ } from "../../../../../public/assets";
 
 const LoginModal = ({ isOpen, onClose }) => {
+  console.log(IMAGEOBJ);
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       showCloseButton={false}
-      className="w-[95%] sm:max-w-m md:max-w-2xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl max-h-[92vh] rounded-xl overflow-hidden"
+      className="w-[95%] sm:max-w-m md:max-w-2xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl max-h-[92vh] bg-[#411654] rounded-xl overflow-hidden"
     >
       <div className="flex flex-col md:flex-row w-full items-center">
         {/* Left Image */}

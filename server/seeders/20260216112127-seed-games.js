@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
  export  async function up(queryInterface) {
     const [categories] = await queryInterface.sequelize.query(
-      `SELECT id, slug FROM "Categories";`
+      `SELECT id, slug FROM "categories";`
     );
 
     const providers = [

@@ -21,6 +21,7 @@ class RegisterService extends BaseService {
       TOKEN_ISSUER,
       requestId,
     };
+    console.log('this.args :>> ', this.args);
 
     if (!name) {
       throw new this.error("Name is required", this.httpStatus.BAD_REQUEST);
@@ -52,7 +53,7 @@ class RegisterService extends BaseService {
         { transaction: t },
       );
 
-      const wallet = await this.db.wallet.create(
+      const wallet = await this.db.wallets.create(
         {
           userId: user.id,
         },

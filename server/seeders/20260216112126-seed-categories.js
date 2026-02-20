@@ -11,7 +11,7 @@ export async function up(queryInterface) {
   ];
 
   await queryInterface.bulkInsert(
-    "Categories",
+    "categories",
     categories.map((cat) => ({
       ...cat,
       description: `${cat.name} category`,
@@ -22,6 +22,6 @@ export async function up(queryInterface) {
 }
 
 export async function down(queryInterface) {
-  await queryInterface.bulkDelete("Categories", null, {});
-  await queryInterface.bulkDelete("Categories", null, {});
+  await queryInterface.bulkDelete("categories", null, {});
+  await queryInterface.bulkDelete("categories", null, {});
 }

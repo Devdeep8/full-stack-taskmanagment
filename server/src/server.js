@@ -17,67 +17,79 @@ import contextMiddleware from "./middlewares/database.middleware.js";
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// 🔹 DB Init
-let isConnected = false;
-
-const initDB = async () => {
-  if (!isConnected) {
+/*
+====================================================
+🔹 DATABASE INITIALIZATION
+====================================================
+*/
+const startServer = async () => {
+  try {
     await connectDB();
     associateModels();
-    isConnected = true;
     console.log("✅ Database connected");
+
+    /*
+    ====================================================
+    🔹 MIDDLEWARES
+    ====================================================
+    */
+
+    app.use(cookieParser());
+
+    app.use(
+      express.json({
+        verify: (req, res, buff) => {
+          req.rawBody = buff;
+        },
+      })
+    );
+
+    app.use(express.urlencoded({ extended: true }));
+
+    app.use(
+      cors({
+        origin: process.env.FRONTEND_URL,
+        credentials: true,
+      })
+    );
+
+    app.use(reqMiddleware);
+    app.use(contextMiddleware);
+    app.use(responseMiddleware);
+
+    /*
+    ====================================================
+    🔹 ROUTES
+    ====================================================
+    */
+
+    app.get("/", (req, res) => {
+      res.json({ status: "OK" });
+    });
+
+    app.use("/api/v1", router);
+
+    /*
+    ====================================================
+    🔹 ERROR HANDLER
+    ====================================================
+    */
+
+    app.use(errorHandler);
+
+    /*
+    ====================================================
+    🚀 START SERVER (RENDER COMPATIBLE)
+    ====================================================
+    */
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+    process.exit(1);
   }
 };
 
-// 🔹 Middlewares
-app.use(cookieParser());
-
-app.use(
-  express.json({
-    verify: (req, res, buff) => {
-      req.rawBody = buff;
-    },
-  })
-);
-
-app.use(express.urlencoded({ extended: true }));
-
-app.use(reqMiddleware);
-app.use(contextMiddleware);
-app.use(responseMiddleware);
-
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  })
-);
-
-// 🔹 Routes
-app.get("/", (req, res) => {
-  res.json({ status: "OK" });
-});
-
-app.use("/api/v1", router);
-
-app.use(errorHandler);
-
-/*
-====================================================
-✅ LOCAL MODE → run with app.listen
-====================================================
-*/
-if (process.env.NODE_ENV !== "production") {
-  initDB().then(() => {
-    app.listen(PORT, () => {
-      console.log(`🚀 Local server running on http://localhost:${PORT}`);
-    });
-  });
-} 
- 
-/*
-====================================================
-☁️ VERCEL MODE → just export app
-====================================================
-*/
-export default app;
+startServer();

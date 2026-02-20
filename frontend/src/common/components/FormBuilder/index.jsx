@@ -1,6 +1,5 @@
 import { Controller } from "react-hook-form";
 import { FIELD_MAP } from "../../constants/fields";
-
 export default function DynamicForm({
   fields,
   form,
@@ -10,7 +9,7 @@ export default function DynamicForm({
   formId = "form",
   className = "",
 }) {
-  const { control, handleSubmit } = form;
+  const { control, handleSubmit , formState : {isSubmitting }} = form;
 
   return (
     <form
@@ -54,7 +53,7 @@ export default function DynamicForm({
             type="submit"
             className=" bg-block  px-4 py-2 mt-4 rounded-lg"
           >
-            {submitButtonText}
+            {isSubmitting ? `...${submitButtonText}` : submitButtonText}
           </button>
         </div>
       )}

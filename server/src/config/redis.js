@@ -2,12 +2,15 @@ import Redis from "ioredis";
 
 let redisClient;
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
   // Production (Render)
-  redisClient = new Redis(process.env.REDIS_URL, {
-    maxRetriesPerRequest: null,
-    enableReadyCheck: true,
-  });
+  redisClient = new Redis(
+    "rediss://red-d6c04uh4tr6s73d7n7tg:F4M8UGIDS6Vfn5AtXZw0UrxyiC5iRzjO@oregon-keyvalue.render.com:6379",
+    {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: true,
+    },
+  );
 } else {
   // Local development
   redisClient = new Redis({

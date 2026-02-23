@@ -5,7 +5,7 @@ import { BaseController } from "../base.controller.js";
 
 class GameController extends BaseController {
   getGames = this.asyncHandler(async (req, res, next) => {
-    const { page, limit, offset } = this.getPaginationParams(req);
+    const { page, limit, offset , cursor } = this.getPaginationParams(req);
 
     const filters = this.getFilterParams(req, [
       "categoryId",
@@ -13,14 +13,15 @@ class GameController extends BaseController {
       "status",
       "provider",
     ]);
-
+    
     const { sortBy, order } = this.getSortParams(req);
-
+    
     const { search } = this.getSearchParams(req);
-
+    
     const data = await this.executeService(GetGamesService, req, res, {
       page,
       limit,
+      cursor,
       offset,
       filters,
       sortBy,

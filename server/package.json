@@ -18,6 +18,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.28.2",
   "dependencies": {
+    "@bull-board/api": "^6.19.0",
+    "@bull-board/express": "^6.19.0",
     "@sequelize/core": "7.0.0-alpha.47",
     "@sequelize/postgres": "7.0.0-alpha.47",
     "ajv": "^8.17.1",

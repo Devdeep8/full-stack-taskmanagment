@@ -15,12 +15,10 @@ export class GetGamesService extends BaseService {
       search = "",
     } = this.args;
 
-    console.log('this.args :>> ', this.args);
-
-
     const where = {};
     // ✅ Apply Filters
-    if (filters.categoryId && filters.categoryId != null) where.categoryId = filters.categoryId;
+    if (filters.categoryId && filters.categoryId != null)
+      where.categoryId = filters.categoryId;
     if (filters.status) where.status = filters.status;
     if (filters.provider) where.provider = filters.provider;
 
@@ -32,6 +30,17 @@ export class GetGamesService extends BaseService {
     }
 
     const { count, rows } = await db.games.findAndCountAll({
+      attributes: [
+        "id",
+        "name",
+        "slug",
+        "imageUrl",
+        "provider",
+        "rtp",
+        "isFeatured",
+        "createdAt",
+      ],
+
       where,
       limit,
       offset,
@@ -39,12 +48,20 @@ export class GetGamesService extends BaseService {
       include: [
         {
           model: this.db.categories, // inverse from Category.hasMany
-          attributes: ["id", "name" , "slug"],
+          attributes: ["id" , "slug"],
+          required: false, // LEFT JOIN, not INNER JOIN
         },
       ],
+      subQuery: false, // ⚠️ Critical — disables Sequelize's subquery wrap
     });
 
-    if(!count) throw new this.error("Games not their " , this.httpStatus.NOT_FOUND , {} ,GetGamesService )
+    if (!count)
+      throw new this.error(
+        "Games not their ",
+        this.httpStatus.NOT_FOUND,
+        {},
+        GetGamesService,
+      );
 
     return {
       page: {

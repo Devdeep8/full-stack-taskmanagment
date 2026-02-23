@@ -4,7 +4,6 @@ import LoginComponents from "../../../login/components/loginform";
 import { IMAGEOBJ } from "../../../../../public/assets";
 
 const LoginModal = ({ isOpen, onClose }) => {
-  console.log(IMAGEOBJ);
   return (
     <Modal
       isOpen={isOpen}

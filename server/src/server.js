@@ -16,8 +16,7 @@ import contextMiddleware from "./middlewares/database.middleware.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
-
-
+import { serverAdapter } from "./bull-board.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -39,8 +38,8 @@ const startServer = async () => {
     ====================================================
     */
 
+   app.use("/admin/queues", serverAdapter.getRouter());
     app.use(cookieParser());
-
     app.use(
       express.json({
         verify: (req, res, buff) => {

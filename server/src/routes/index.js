@@ -10,6 +10,6 @@ const router = express.Router();
 router.use('/auth', authRoutes);
 router.use('/games', gamesRoutes)
 router.use('/categories', categoriesRoutes)
-router.use('/payment' , paymentRoutes)
+router.use('/payment' , paymentRoutes) 
 router.use('/users'  , userRoutes)
 export default router;

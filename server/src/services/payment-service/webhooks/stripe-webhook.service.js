@@ -12,7 +12,6 @@ export class StripeWebhookService extends BaseService {
 
     let event;
 
-    // ✅ 1. Verify Stripe Signature
     try {
       event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
     } catch (err) {

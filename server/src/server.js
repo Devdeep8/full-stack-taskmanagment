@@ -14,6 +14,11 @@ import responseMiddleware from "./middlewares/response.middleware.js";
 import router from "./routes/index.js";
 import contextMiddleware from "./middlewares/database.middleware.js";
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -41,7 +46,7 @@ const startServer = async () => {
         verify: (req, res, buff) => {
           req.rawBody = buff;
         },
-      })
+      }),
     );
 
     app.use(express.urlencoded({ extended: true }));
@@ -50,13 +55,16 @@ const startServer = async () => {
       cors({
         origin: process.env.FRONTEND_URL,
         credentials: true,
-      })
+      }),
     );
 
     app.use(reqMiddleware);
     app.use(contextMiddleware);
     app.use(responseMiddleware);
 
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+    app.use("/exports", express.static(path.join(__dirname, "public/exports")));
     /*
     ====================================================
     🔹 ROUTES

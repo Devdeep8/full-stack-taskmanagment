@@ -11,11 +11,8 @@ export const sequelize = new Sequelize({
   url: process.env.DATABASE_URL,
 
   logging:
-    process.env.DB_LOGGING === "true" && !isProduction
-      ? console.log
-      : false,
+    process.env.DB_LOGGING === "true" && !isProduction ? console.log : false,
 
-  // ✅ Sequelize v7 SSL config (root level)
   ...(isProduction && {
     ssl: {
       require: true,
@@ -34,7 +31,6 @@ export const sequelize = new Sequelize({
 export const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ PostgreSQL connected with pool.");
   } catch (error) {
     console.error("❌ Database authentication failed:", error);
     process.exit(1);

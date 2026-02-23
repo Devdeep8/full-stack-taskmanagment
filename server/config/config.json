@@ -2,7 +2,7 @@
   "development": {
      "username": "admin",
     "password": "admin",
-    "database": "tasks_db",
+    "database": "games",
     "host": "localhost",
     "dialect": "postgres"
   },

@@ -4,6 +4,7 @@ export const httpStatus = {
   // Success
   OK: 200,
   CREATED: 201,
+  ACCEPTED: 202,
   NO_CONTENT: 204,
 
   // Client Errors
@@ -15,7 +16,6 @@ export const httpStatus = {
   CONTENT_TYPE : 415,
   UNPROCESSABLE_ENTITY: 422,
   TOO_MANY_REQUESTS: 429,
-
   // Server Errors
   INTERNAL_SERVER_ERROR: 500,
   BAD_GATEWAY: 502,

@@ -13,11 +13,11 @@ class GameController extends BaseController {
       "status",
       "provider",
     ]);
-
+    
     const { sortBy, order } = this.getSortParams(req);
-
+    
     const { search } = this.getSearchParams(req);
-
+    
     const data = await this.executeService(GetGamesService, req, res, {
       page,
       limit,
